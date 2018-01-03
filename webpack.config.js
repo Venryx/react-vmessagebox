@@ -21,7 +21,11 @@ module.exports = {
 		// use external version of React (ie, don't bundle react, since any app using this library will already have it available)
 		//"react": "React",
 		"react": "commonjs react",
- 		"react-dom": "commonjs react-dom",
+		"react-dom": "commonjs react-dom",
+		"react-vextensions": "commonjs react-vextensions",
+		"react-vcomponents": "commonjs react-vcomponents",
+		"react-redux": "commonjs react-redux",
+		"redux": "commonjs redux",
     },
     /*module: {
         noParse: ["react"]
