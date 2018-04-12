@@ -126,6 +126,11 @@ export class MessageBoxUI extends BaseComponent<{} & Partial<{options: MessageBo
 
 		let {boxID, title, onCancel, overlayStyle, containerStyle} = options;
 		let ui = boxUIs[boxID];
+		if (ui == null) {
+			console.warn(`A message-box entry exists in the redux store, but not in the boxUIs list.${""
+				}This most likely means you're persisting vmessagebox redux state. (which you shouldn't be doing)`);
+			return <div/>;
+		}
 
 		let innerUI = updateInnerUI ? ui() : this.lastInnerUIResult;
 		this.lastInnerUIResult = innerUI;

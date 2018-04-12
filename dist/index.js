@@ -261,6 +261,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                containerStyle = options.containerStyle;
 
 	            var ui = boxUIs[boxID];
+	            if (ui == null) {
+	                console.warn("A message-box entry exists in the redux store, but not in the boxUIs list." + "This most likely means you're persisting vmessagebox redux state. (which you shouldn't be doing)");
+	                return React.createElement("div", null);
+	            }
 	            var innerUI = updateInnerUI ? ui() : this.lastInnerUIResult;
 	            this.lastInnerUIResult = innerUI;
 	            return React.createElement(_reactModal2.default, { isOpen: true, contentLabel: title || "", style: { overlay: E(styles.overlay, overlayStyle), content: E(styles.container, containerStyle) }, shouldCloseOnOverlayClick: options.cancelOnOverlayClick, onRequestClose: function onRequestClose() {
