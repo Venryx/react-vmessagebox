@@ -4,7 +4,10 @@ import {connect} from "react-redux";
 import {Button} from "react-vcomponents";
 import { voidy } from "./General";
 import Action from "./Action";
-import React from "react";
+//import React from "react";
+
+declare var require;
+var React = require("react");
 
 declare var store;
 

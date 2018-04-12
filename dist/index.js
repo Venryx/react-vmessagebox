@@ -112,10 +112,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _Action4 = _interopRequireDefault(_Action3);
 
-	var _react = __webpack_require__(7);
-
-	var _react2 = _interopRequireDefault(_react);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -132,6 +128,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
 	    }return c > 3 && r && Object.defineProperty(target, key, r), r;
 	};
+
+	var React = __webpack_require__(7);
 
 	var MessageBoxOptions = exports.MessageBoxOptions = function MessageBoxOptions() {
 	    _classCallCheck(this, MessageBoxOptions);
@@ -205,10 +203,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function ShowMessageBox(options) {
 	    var o = E(new MessageBoxOptions(), options);
 	    o.ui = function () {
-	        return _react2.default.createElement("div", null, o.titleUI ? o.titleUI() : _react2.default.createElement("div", { style: { fontSize: "18px", fontWeight: "bold", whiteSpace: "pre" } }, o.title), o.messageUI ? o.messageUI() : _react2.default.createElement("p", { style: { marginTop: 15, whiteSpace: "pre" } }, o.message), o.okButton && _react2.default.createElement(_reactVcomponents.Button, { text: "OK", enabled: o.okButtonClickable, onClick: function onClick() {
+	        return React.createElement("div", null, o.titleUI ? o.titleUI() : React.createElement("div", { style: { fontSize: "18px", fontWeight: "bold", whiteSpace: "pre" } }, o.title), o.messageUI ? o.messageUI() : React.createElement("p", { style: { marginTop: 15, whiteSpace: "pre" } }, o.message), o.okButton && React.createElement(_reactVcomponents.Button, { text: "OK", enabled: o.okButtonClickable, onClick: function onClick() {
 	                if (o.onOK && o.onOK() === false) return;
 	                boxController.Close();
-	            } }), o.cancelButton && _react2.default.createElement(_reactVcomponents.Button, { text: "Cancel", ml: o.okButton ? 10 : 0, onClick: function onClick() {
+	            } }), o.cancelButton && React.createElement(_reactVcomponents.Button, { text: "Cancel", ml: o.okButton ? 10 : 0, onClick: function onClick() {
 	                if (o.onCancel && o.onCancel() === false) return;
 	                boxController.Close();
 	            } }));
@@ -253,7 +251,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var options = this.props.options;
 
-	            if (options == null) return _react2.default.createElement("div", null);
+	            if (options == null) return React.createElement("div", null);
 	            var updateInnerUI = true; // options["updateInnerUI"] != false;
 	            options["updateInnerUI"] = false; // have it only happen once
 	            var boxID = options.boxID,
@@ -265,7 +263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var ui = boxUIs[boxID];
 	            var innerUI = updateInnerUI ? ui() : this.lastInnerUIResult;
 	            this.lastInnerUIResult = innerUI;
-	            return _react2.default.createElement(_reactModal2.default, { isOpen: true, contentLabel: title || "", style: { overlay: E(styles.overlay, overlayStyle), content: E(styles.container, containerStyle) }, shouldCloseOnOverlayClick: options.cancelOnOverlayClick, onRequestClose: function onRequestClose() {
+	            return React.createElement(_reactModal2.default, { isOpen: true, contentLabel: title || "", style: { overlay: E(styles.overlay, overlayStyle), content: E(styles.container, containerStyle) }, shouldCloseOnOverlayClick: options.cancelOnOverlayClick, onRequestClose: function onRequestClose() {
 	                    if (onCancel && onCancel() === false) return;
 	                    store.dispatch(new ACTMessageBoxShow(null));
 	                } }, innerUI);
