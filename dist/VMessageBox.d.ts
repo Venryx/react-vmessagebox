@@ -2,22 +2,23 @@ import { BaseComponent } from "react-vextensions";
 import { voidy } from "./General";
 import Action from "./Action";
 export declare class MessageBoxOptions {
-    title?: string;
-    titleUI?: () => JSX.Element;
-    message?: string;
-    messageUI?: () => JSX.Element;
-    okButton: boolean;
-    okButtonClickable: boolean;
-    cancelButton: boolean;
-    cancelOnOverlayClick: boolean;
     overlayStyle?: any;
     containerStyle?: any;
+    title?: string | (() => JSX.Element);
+    titleStyle?: any;
+    message?: string | (() => JSX.Element);
+    messageStyle?: any;
+    okButton: boolean;
+    okButtonClickable: boolean;
     onOK?: () => boolean | voidy;
+    cancelButton: boolean;
+    cancelOnOverlayClick: boolean;
     onCancel?: () => boolean | voidy;
-    ui: () => JSX.Element;
-    boxID: number;
+    buttonBarStyle?: any;
 }
-export declare class ACTMessageBoxShow extends Action<MessageBoxOptions> {
+export declare class ACTMessageBoxShow extends Action<{
+    boxID: number;
+}> {
 }
 export declare class ACTMessageBoxUpdate extends Action<{
     boxID: number;
@@ -31,19 +32,47 @@ export declare class BoxController {
     UpdateUI(updateInnerUI?: boolean): void;
     Close(): void;
 }
-export declare function ShowMessageBox_Base(o: MessageBoxOptions): BoxController;
+export declare type BoxInfo = {
+    id: number;
+    options: MessageBoxOptions;
+    controller: BoxController;
+};
+export declare function ShowMessageBox_Base(options: MessageBoxOptions): BoxController;
 export declare function ShowMessageBox(options: {
     [P in keyof MessageBoxOptions]?: MessageBoxOptions[P];
 }): BoxController;
 export declare class MessageBoxState {
-    openOptions: MessageBoxOptions;
+    openBoxID: number;
+    updateCallCount: number;
 }
 export declare function MessageBoxReducer(state: MessageBoxState, action: Action<any>): {
-    openOptions: any;
+    openBoxID: any;
+    updateCallCount: number;
 };
 export declare class MessageBoxUI extends BaseComponent<{} & Partial<{
-    options: MessageBoxOptions;
-}>, {}> {
-    lastInnerUIResult: any;
+    openBoxID: number;
+    updateCallCount: number;
+}>, {
+    offset: {
+        x: number;
+        y: number;
+    };
+}> {
+    static defaultState: {
+        offset: {
+            x: number;
+            y: number;
+        };
+    };
+    moveBar_drag_origOffset: {
+        x: number;
+        y: number;
+    };
+    moveBar_drag_mouseDownPos: {
+        x: number;
+        y: number;
+    };
+    moveBar_drag_mouseMoveListener: EventListener;
+    moveBar_drag_mouseUpListener: EventListener;
     render(): JSX.Element;
 }

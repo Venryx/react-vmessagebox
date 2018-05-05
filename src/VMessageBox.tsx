@@ -12,23 +12,26 @@ var React = require("react");
 declare var store;
 
 export class MessageBoxOptions {
-	title?: string;
-	titleUI?: ()=>JSX.Element
-	message?: string;
-	messageUI?: ()=>JSX.Element;
+	overlayStyle?: any;
+	containerStyle?: any;
+	
+	title?: string | (()=>JSX.Element);
+	titleStyle?: any;
+
+	message?: string | (()=>JSX.Element);
+	messageStyle?: any;
+
 	okButton = true;
 	okButtonClickable = true;
+	onOK?: ()=>boolean | voidy;
+
 	cancelButton = false;
 	cancelOnOverlayClick = false;
-	overlayStyle?;
-	containerStyle?;
-	onOK?: ()=>boolean | voidy;
 	onCancel?: ()=>boolean | voidy;
-	
-	ui: ()=>JSX.Element;
-	boxID: number;
+
+	buttonBarStyle?: any;
 }
-export class ACTMessageBoxShow extends Action<MessageBoxOptions> {}
+export class ACTMessageBoxShow extends Action<{boxID: number}> {}
 export class ACTMessageBoxUpdate extends Action<{boxID: number, updateInnerUI: boolean}> {}
 
 export class BoxController {
@@ -43,47 +46,44 @@ export class BoxController {
 		store.dispatch(new ACTMessageBoxUpdate({boxID: this.boxID, updateInnerUI}));
 	}
 	Close() {
-		store.dispatch(new ACTMessageBoxShow(null));
+		store.dispatch(new ACTMessageBoxShow({boxID: null}));
 	}
 }
 
+export type BoxInfo = {
+	id: number;
+	options: MessageBoxOptions;
+	controller: BoxController;
+};
+
 let lastBoxID = -1;
-let boxUIs = {} as {[key: number]: ()=>JSX.Element};
-export function ShowMessageBox_Base(o: MessageBoxOptions) {
-	o.boxID = ++lastBoxID;
+let boxInfo = {} as {[key: number]: BoxInfo};
+export function ShowMessageBox_Base(options: MessageBoxOptions) {
+	let boxID = ++lastBoxID;
+	let controller = new BoxController(options, boxID);
 
-	// store ui in extra storage, kuz it gets ruined when put in Redux store
-	boxUIs[o.boxID] = o.ui;
-	delete o.ui;
+	// store options in extra storage, because ui-functions in it get ruined when put in Redux store
+	boxInfo[boxID] = {id: boxID, options, controller};
 
-	store.dispatch(new ACTMessageBoxShow(o));
+	store.dispatch(new ACTMessageBoxShow({boxID}));
 
-	return new BoxController(o, o.boxID);
+	return controller;
 }
 //export function ShowMessageBox(options: Partial<MessageBoxOptions>) {
 export function ShowMessageBox(options: {[P in keyof MessageBoxOptions]?: MessageBoxOptions[P]}) { // do it this way, so the options are shown
-	let o = E(new MessageBoxOptions(), options) as MessageBoxOptions;
-
-	o.ui = ()=>(
-		<div>
-			{o.titleUI ? o.titleUI() : <div style={{fontSize: "18px", fontWeight: "bold", whiteSpace: "pre"}}>{o.title}</div>}
-			{o.messageUI ? o.messageUI() : <p style={{marginTop: 15, whiteSpace: "pre"}}>{o.message}</p>}
-			{o.okButton &&
-				<Button text="OK" enabled={o.okButtonClickable}
-					onClick={()=> {
-						if (o.onOK && o.onOK() === false) return;
-						boxController.Close();
-					}}/>}
-			{o.cancelButton &&
-				<Button text="Cancel" ml={o.okButton ? 10 : 0} onClick={()=> {
-					if (o.onCancel && o.onCancel() === false) return;
-					boxController.Close();
-				}}/>}
-		</div>
-	);
-
-	var boxController = ShowMessageBox_Base(o);
+	let options_final = E(new MessageBoxOptions(), options) as MessageBoxOptions;
+	var boxController = ShowMessageBox_Base(options_final);
 	return boxController;
+}
+
+export class MessageBoxState {
+	openBoxID: number;
+	updateCallCount: number;
+}
+export function MessageBoxReducer(state = new MessageBoxState(), action: Action<any>) {
+	if (action.type == "ACTMessageBoxShow") return {...state, openBoxID: action.payload.boxID};
+	if (action.type == "ACTMessageBoxUpdate") return {...state, updateCallCount: (state.updateCallCount|0) + 1};
+	return state;
 }
 
 AddGlobalStyle(`
@@ -91,57 +91,98 @@ AddGlobalStyle(`
 `);
 
 let styles = {
-	overlay: {position: "fixed", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(0,0,0,.5)"},
+	overlay: {
+		position: "fixed", left: -1000, right: -1000, top: -1000, bottom: -1000, // add extra space, so that popup-content doesn't have scroll issue when clipping edges
+		display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,.5)",
+	},
 	container: {
-		position: "absolute", overflow: "auto",
+		overflow: "auto",
 		//top: "40px", left: "40px", right: "40px", bottom: "40px",
-		left: "50%", right: "initial", top: "50%", bottom: "initial", transform: "translate(-50%, -50%)",
-		background: "rgba(0,0,0,.75)", border: "1px solid #555", WebkitOverflowScrolling: "touch", borderRadius: "4px", outline: "none", padding: "20px"
-	}
+		//left: "50%", right: "initial", top: "50%", bottom: "initial", transform: "translate(-50%, -50%)",
+		position: "relative", left: "initial", right: "initial", top: "initial", bottom: "initial",
+		background: "rgba(0,0,0,.75)", border: "1px solid #555", WebkitOverflowScrolling: "touch", borderRadius: "4px", outline: "none", padding: 0,
+	},
+	title: {
+		padding: "5px 10px", background: "rgba(0,0,0,1)", cursor: "move", fontSize: "17px", fontWeight: "bold", whiteSpace: "pre",
+		border: "solid rgba(255,255,255,.1)", borderWidth: "0 0 1px 0"
+	},
+	message: {padding: "10px 20px", whiteSpace: "pre"},
+	buttonBar: {marginLeft: 20, marginBottom: 20, marginRight: 20},
 };
 
-
-export class MessageBoxState {
-	openOptions: MessageBoxOptions;
-}
-export function MessageBoxReducer(state = new MessageBoxState(), action: Action<any>) {
-	if (action.type == "ACTMessageBoxShow")
-		return {...state, openOptions: action.payload};
-	if (action.type == "ACTMessageBoxUpdate")
-		return {...state, openOptions: {...state.openOptions, updateInnerUI: action.payload.updateInnerUI}};
-	return state;
-}
-
 @connect(state=>({
-	options: store.getState().messageBox.openOptions,
+	openBoxID: store.getState().messageBox.openBoxID,
+	updateCallCount: store.getState().messageBox.updateCallCount, // just used to trigger update
 }))
-export class MessageBoxUI extends BaseComponent<{} & Partial<{options: MessageBoxOptions}>, {}> {
-	lastInnerUIResult;
+export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
+	static defaultState = {offset: {x: 0, y: 0}};
+
+	//lastInnerUIResult;
+	moveBar_drag_origOffset: {x: number, y: number};
+	moveBar_drag_mouseDownPos: {x: number, y: number};
+	moveBar_drag_mouseMoveListener: EventListener;
+	moveBar_drag_mouseUpListener: EventListener;
 	render() {
-		let {options} = this.props;
-		if (options == null) return <div/>;
+		let {openBoxID} = this.props;
+		if (openBoxID == null) return <div/>;
+		let info = boxInfo[openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
+		let {options: o, controller} = info;
+		let {offset} = this.state;
 
-		let updateInnerUI = true; // options["updateInnerUI"] != false;
-		options["updateInnerUI"] = false; // have it only happen once
-
-		let {boxID, title, onCancel, overlayStyle, containerStyle} = options;
-		let ui = boxUIs[boxID];
-		if (ui == null) {
-			console.warn(`A message-box entry exists in the redux store, but not in the boxUIs list.${""
-				}This most likely means you're persisting vmessagebox redux state. (which you shouldn't be doing)`);
-			return <div/>;
-		}
-
-		let innerUI = updateInnerUI ? ui() : this.lastInnerUIResult;
-		this.lastInnerUIResult = innerUI;
 		return (
-			<Modal isOpen={true} contentLabel={title || ""} style={{overlay: E(styles.overlay, overlayStyle), content: E(styles.container, containerStyle)}}
-					shouldCloseOnOverlayClick={options.cancelOnOverlayClick}
+			<Modal isOpen={true} contentLabel={""}
+					style={{
+						overlay: E(styles.overlay, o.overlayStyle),
+						content: E(
+							styles.container,
+							{marginLeft: offset.x * 2, marginTop: offset.y * 2}, // apply offset*2, because container's flex-based centering considers margins part of the size
+							o.containerStyle
+						),
+					}}
+					shouldCloseOnOverlayClick={o.cancelOnOverlayClick}
 					onRequestClose={()=> {
-						if (onCancel && onCancel() === false) return;
+						if (o.onCancel && o.onCancel() === false) return;
 						store.dispatch(new ACTMessageBoxShow(null));
 					}}>
-				{innerUI}
+				{o.title != null &&
+					<div style={E(styles.title, o.titleStyle)}
+						onMouseDown={e=> {
+							this.moveBar_drag_origOffset = offset;
+							this.moveBar_drag_mouseDownPos = {x: e.pageX, y: e.pageY};
+							document.addEventListener("mousemove", this.moveBar_drag_mouseMoveListener = (e: MouseEvent)=> {
+								if (this.moveBar_drag_mouseDownPos == null) return;
+								let diffFromDragPoint = {x: e.pageX - this.moveBar_drag_mouseDownPos.x, y: e.pageY - this.moveBar_drag_mouseDownPos.y};
+								this.SetState({offset: {x: this.moveBar_drag_origOffset.x + diffFromDragPoint.x, y: this.moveBar_drag_origOffset.y + diffFromDragPoint.y}});
+							});
+							document.addEventListener("mouseup", this.moveBar_drag_mouseUpListener = (e: MouseEvent)=> {
+								this.moveBar_drag_origOffset = null;
+								this.moveBar_drag_mouseDownPos = null;
+								document.removeEventListener("mousemove", this.moveBar_drag_mouseMoveListener);
+								this.moveBar_drag_mouseMoveListener = null;
+								document.removeEventListener("mouseup", this.moveBar_drag_mouseUpListener);
+								this.moveBar_drag_mouseUpListener = null;
+							});
+						}}>
+						{typeof o.title == "string" ? o.title : o.title()}
+					</div>}
+				{o.message != null &&
+					<div style={E(styles.message, o.messageStyle)}>
+						{typeof o.message == "string" ? o.message : o.message()}
+					</div>}
+				{(o.okButton || o.cancelButton) &&
+					<div style={E(styles.buttonBar, o.buttonBarStyle)}>
+						{o.okButton &&
+							<Button text="OK" enabled={o.okButtonClickable}
+								onClick={()=> {
+									if (o.onOK && o.onOK() === false) return;
+									controller.Close();
+								}}/>}
+						{o.cancelButton &&
+							<Button text="Cancel" ml={o.okButton ? 10 : 0} onClick={()=> {
+								if (o.onCancel && o.onCancel() === false) return;
+								controller.Close();
+							}}/>}
+					</div>}
 			</Modal>
 		);
 	}

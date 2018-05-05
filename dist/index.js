@@ -182,7 +182,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "Close",
 	        value: function Close() {
-	            store.dispatch(new ACTMessageBoxShow(null));
+	            store.dispatch(new ACTMessageBoxShow({ boxID: null }));
 	        }
 	    }]);
 
@@ -190,40 +190,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 	var lastBoxID = -1;
-	var boxUIs = {};
-	function ShowMessageBox_Base(o) {
-	    o.boxID = ++lastBoxID;
-	    // store ui in extra storage, kuz it gets ruined when put in Redux store
-	    boxUIs[o.boxID] = o.ui;
-	    delete o.ui;
-	    store.dispatch(new ACTMessageBoxShow(o));
-	    return new BoxController(o, o.boxID);
+	var boxInfo = {};
+	function ShowMessageBox_Base(options) {
+	    var boxID = ++lastBoxID;
+	    var controller = new BoxController(options, boxID);
+	    // store options in extra storage, because ui-functions in it get ruined when put in Redux store
+	    boxInfo[boxID] = { id: boxID, options: options, controller: controller };
+	    store.dispatch(new ACTMessageBoxShow({ boxID: boxID }));
+	    return controller;
 	}
 	//export function ShowMessageBox(options: Partial<MessageBoxOptions>) {
 	function ShowMessageBox(options) {
-	    var o = E(new MessageBoxOptions(), options);
-	    o.ui = function () {
-	        return React.createElement("div", null, o.titleUI ? o.titleUI() : React.createElement("div", { style: { fontSize: "18px", fontWeight: "bold", whiteSpace: "pre" } }, o.title), o.messageUI ? o.messageUI() : React.createElement("p", { style: { marginTop: 15, whiteSpace: "pre" } }, o.message), o.okButton && React.createElement(_reactVcomponents.Button, { text: "OK", enabled: o.okButtonClickable, onClick: function onClick() {
-	                if (o.onOK && o.onOK() === false) return;
-	                boxController.Close();
-	            } }), o.cancelButton && React.createElement(_reactVcomponents.Button, { text: "Cancel", ml: o.okButton ? 10 : 0, onClick: function onClick() {
-	                if (o.onCancel && o.onCancel() === false) return;
-	                boxController.Close();
-	            } }));
-	    };
-	    var boxController = ShowMessageBox_Base(o);
+	    var options_final = E(new MessageBoxOptions(), options);
+	    var boxController = ShowMessageBox_Base(options_final);
 	    return boxController;
 	}
-	(0, _reactVextensions.AddGlobalStyle)("\n.ReactModal__Overlay { z-index: 1; }\n");
-	var styles = {
-	    overlay: { position: "fixed", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(0,0,0,.5)" },
-	    container: {
-	        position: "absolute", overflow: "auto",
-	        //top: "40px", left: "40px", right: "40px", bottom: "40px",
-	        left: "50%", right: "initial", top: "50%", bottom: "initial", transform: "translate(-50%, -50%)",
-	        background: "rgba(0,0,0,.75)", border: "1px solid #555", WebkitOverflowScrolling: "touch", borderRadius: "4px", outline: "none", padding: "20px"
-	    }
-	};
 
 	var MessageBoxState = exports.MessageBoxState = function MessageBoxState() {
 	    _classCallCheck(this, MessageBoxState);
@@ -233,10 +214,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new MessageBoxState();
 	    var action = arguments[1];
 
-	    if (action.type == "ACTMessageBoxShow") return Object.assign({}, state, { openOptions: action.payload });
-	    if (action.type == "ACTMessageBoxUpdate") return Object.assign({}, state, { openOptions: Object.assign({}, state.openOptions, { updateInnerUI: action.payload.updateInnerUI }) });
+	    if (action.type == "ACTMessageBoxShow") return Object.assign({}, state, { openBoxID: action.payload.boxID });
+	    if (action.type == "ACTMessageBoxUpdate") return Object.assign({}, state, { updateCallCount: (state.updateCallCount | 0) + 1 });
 	    return state;
 	}
+	(0, _reactVextensions.AddGlobalStyle)("\n.ReactModal__Overlay { z-index: 1; }\n");
+	var styles = {
+	    overlay: {
+	        position: "fixed", left: -1000, right: -1000, top: -1000, bottom: -1000,
+	        display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,.5)"
+	    },
+	    container: {
+	        overflow: "auto",
+	        //top: "40px", left: "40px", right: "40px", bottom: "40px",
+	        //left: "50%", right: "initial", top: "50%", bottom: "initial", transform: "translate(-50%, -50%)",
+	        position: "relative", left: "initial", right: "initial", top: "initial", bottom: "initial",
+	        background: "rgba(0,0,0,.75)", border: "1px solid #555", WebkitOverflowScrolling: "touch", borderRadius: "4px", outline: "none", padding: 0
+	    },
+	    title: {
+	        padding: "5px 10px", background: "rgba(0,0,0,1)", cursor: "move", fontSize: "17px", fontWeight: "bold", whiteSpace: "pre",
+	        border: "solid rgba(255,255,255,.1)", borderWidth: "0 0 1px 0"
+	    },
+	    message: { padding: "10px 20px", whiteSpace: "pre" },
+	    buttonBar: { marginLeft: 20, marginBottom: 20, marginRight: 20 }
+	};
 	var MessageBoxUI = function (_BaseComponent) {
 	    _inherits(MessageBoxUI, _BaseComponent);
 
@@ -249,36 +250,56 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(MessageBoxUI, [{
 	        key: "render",
 	        value: function render() {
-	            var options = this.props.options;
+	            var _this4 = this;
 
-	            if (options == null) return React.createElement("div", null);
-	            var updateInnerUI = true; // options["updateInnerUI"] != false;
-	            options["updateInnerUI"] = false; // have it only happen once
-	            var boxID = options.boxID,
-	                title = options.title,
-	                onCancel = options.onCancel,
-	                overlayStyle = options.overlayStyle,
-	                containerStyle = options.containerStyle;
+	            var openBoxID = this.props.openBoxID;
 
-	            var ui = boxUIs[boxID];
-	            if (ui == null) {
-	                console.warn("A message-box entry exists in the redux store, but not in the boxUIs list." + "This most likely means you're persisting vmessagebox redux state. (which you shouldn't be doing)");
-	                return React.createElement("div", null);
-	            }
-	            var innerUI = updateInnerUI ? ui() : this.lastInnerUIResult;
-	            this.lastInnerUIResult = innerUI;
-	            return React.createElement(_reactModal2.default, { isOpen: true, contentLabel: title || "", style: { overlay: E(styles.overlay, overlayStyle), content: E(styles.container, containerStyle) }, shouldCloseOnOverlayClick: options.cancelOnOverlayClick, onRequestClose: function onRequestClose() {
-	                    if (onCancel && onCancel() === false) return;
+	            if (openBoxID == null) return React.createElement("div", null);
+	            var info = boxInfo[openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
+	            var o = info.options,
+	                controller = info.controller;
+	            var offset = this.state.offset;
+
+	            return React.createElement(_reactModal2.default, { isOpen: true, contentLabel: "", style: {
+	                    overlay: E(styles.overlay, o.overlayStyle),
+	                    content: E(styles.container, { marginLeft: offset.x * 2, marginTop: offset.y * 2 }, // apply offset*2, because container's flex-based centering considers margins part of the size
+	                    o.containerStyle)
+	                }, shouldCloseOnOverlayClick: o.cancelOnOverlayClick, onRequestClose: function onRequestClose() {
+	                    if (o.onCancel && o.onCancel() === false) return;
 	                    store.dispatch(new ACTMessageBoxShow(null));
-	                } }, innerUI);
+	                } }, o.title != null && React.createElement("div", { style: E(styles.title, o.titleStyle), onMouseDown: function onMouseDown(e) {
+	                    _this4.moveBar_drag_origOffset = offset;
+	                    _this4.moveBar_drag_mouseDownPos = { x: e.pageX, y: e.pageY };
+	                    document.addEventListener("mousemove", _this4.moveBar_drag_mouseMoveListener = function (e) {
+	                        if (_this4.moveBar_drag_mouseDownPos == null) return;
+	                        var diffFromDragPoint = { x: e.pageX - _this4.moveBar_drag_mouseDownPos.x, y: e.pageY - _this4.moveBar_drag_mouseDownPos.y };
+	                        _this4.SetState({ offset: { x: _this4.moveBar_drag_origOffset.x + diffFromDragPoint.x, y: _this4.moveBar_drag_origOffset.y + diffFromDragPoint.y } });
+	                    });
+	                    document.addEventListener("mouseup", _this4.moveBar_drag_mouseUpListener = function (e) {
+	                        _this4.moveBar_drag_origOffset = null;
+	                        _this4.moveBar_drag_mouseDownPos = null;
+	                        document.removeEventListener("mousemove", _this4.moveBar_drag_mouseMoveListener);
+	                        _this4.moveBar_drag_mouseMoveListener = null;
+	                        document.removeEventListener("mouseup", _this4.moveBar_drag_mouseUpListener);
+	                        _this4.moveBar_drag_mouseUpListener = null;
+	                    });
+	                } }, typeof o.title == "string" ? o.title : o.title()), o.message != null && React.createElement("div", { style: E(styles.message, o.messageStyle) }, typeof o.message == "string" ? o.message : o.message()), (o.okButton || o.cancelButton) && React.createElement("div", { style: E(styles.buttonBar, o.buttonBarStyle) }, o.okButton && React.createElement(_reactVcomponents.Button, { text: "OK", enabled: o.okButtonClickable, onClick: function onClick() {
+	                    if (o.onOK && o.onOK() === false) return;
+	                    controller.Close();
+	                } }), o.cancelButton && React.createElement(_reactVcomponents.Button, { text: "Cancel", ml: o.okButton ? 10 : 0, onClick: function onClick() {
+	                    if (o.onCancel && o.onCancel() === false) return;
+	                    controller.Close();
+	                } })));
 	        }
 	    }]);
 
 	    return MessageBoxUI;
 	}(_reactVextensions.BaseComponent);
+	MessageBoxUI.defaultState = { offset: { x: 0, y: 0 } };
 	exports.MessageBoxUI = MessageBoxUI = __decorate([(0, _reactRedux.connect)(function (state) {
 	    return {
-	        options: store.getState().messageBox.openOptions
+	        openBoxID: store.getState().messageBox.openBoxID,
+	        updateCallCount: store.getState().messageBox.updateCallCount
 	    };
 	})], MessageBoxUI);
 	exports.MessageBoxUI = MessageBoxUI;
