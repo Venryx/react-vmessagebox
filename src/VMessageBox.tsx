@@ -117,6 +117,13 @@ let styles = {
 export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
 	static defaultState = {offset: {x: 0, y: 0}};
 
+	ComponentWillReceiveProps(props) {
+		// if open-box-id changing, clear dialog position/offset
+		if (props.openBoxID != this.props.openBoxID) {
+			this.SetState({offset: {x: 0, y: 0}});
+		}
+	}
+
 	//lastInnerUIResult;
 	moveBar_drag_origOffset: {x: number, y: number};
 	moveBar_drag_mouseDownPos: {x: number, y: number};

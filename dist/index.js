@@ -248,6 +248,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _createClass(MessageBoxUI, [{
+	        key: "ComponentWillReceiveProps",
+	        value: function ComponentWillReceiveProps(props) {
+	            // if open-box-id changing, clear dialog position/offset
+	            if (props.openBoxID != this.props.openBoxID) {
+	                this.SetState({ offset: { x: 0, y: 0 } });
+	            }
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
 	            var _this4 = this;

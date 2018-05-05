@@ -64,6 +64,7 @@ export declare class MessageBoxUI extends BaseComponent<{} & Partial<{
             y: number;
         };
     };
+    ComponentWillReceiveProps(props: any): void;
     moveBar_drag_origOffset: {
         x: number;
         y: number;
