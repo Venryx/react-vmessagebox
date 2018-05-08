@@ -274,7 +274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    o.containerStyle)
 	                }, shouldCloseOnOverlayClick: o.cancelOnOverlayClick, onRequestClose: function onRequestClose() {
 	                    if (o.onCancel && o.onCancel() === false) return;
-	                    store.dispatch(new ACTMessageBoxShow(null));
+	                    store.dispatch(new ACTMessageBoxShow({ boxID: null }));
 	                } }, o.title != null && React.createElement("div", { style: E(styles.title, o.titleStyle), onMouseDown: function onMouseDown(e) {
 	                    _this4.moveBar_drag_origOffset = offset;
 	                    _this4.moveBar_drag_mouseDownPos = { x: e.pageX, y: e.pageY };

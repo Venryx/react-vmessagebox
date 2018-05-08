@@ -149,7 +149,7 @@ export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number,
 					shouldCloseOnOverlayClick={o.cancelOnOverlayClick}
 					onRequestClose={()=> {
 						if (o.onCancel && o.onCancel() === false) return;
-						store.dispatch(new ACTMessageBoxShow(null));
+						store.dispatch(new ACTMessageBoxShow({boxID: null}));
 					}}>
 				{o.title != null &&
 					<div style={E(styles.title, o.titleStyle)}
