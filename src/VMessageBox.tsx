@@ -137,7 +137,7 @@ export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number,
 		let {offset} = this.state;
 
 		return (
-			<Modal isOpen={true} contentLabel={""}
+			<Modal isOpen={true} contentLabel={""} ariaHideApp={false}
 					style={{
 						overlay: E(styles.overlay, o.overlayStyle),
 						content: E(
