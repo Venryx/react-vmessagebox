@@ -2,11 +2,11 @@
   "name": "react-vmessagebox",
   "version": "0.0.2",
   "description": "Message-box solution built using ReactJS and Redux.",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "Dist/index.js",
+  "typings": "Dist/index.d.ts",
   "scripts": {
-    "dev": "webpack --config webpack.config.js --inline --colors --progress --watch",
-    "dist": "babel src/index.jsx -u -o dist/index.js --stage 1 --presets react"
+    "dev": "webpack-cli --config webpack.config.js --colors --progress --watch",
+    "dist": "babel Source/index.jsx -u -o Dist/index.js --stage 1 --presets react"
   },
   "repository": {
     "type": "git",
@@ -34,23 +34,22 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
-    "@types/react": "15.6.10",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.8.7",
     "babel-cli": "^6.4.5",
-    "babel-core": "^6.4.5",
-    "babel-loader": "^6.2.1",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
-    "react-redux": "^5.0.7",
-    "react-vextensions": "^0.0.1",
-    "react-vcomponents": "^0.0.1",
-    "redux": "^3.6.0",
-    "style-loader": "^0.13.0",
-    "ts-loader": "^3.2.0",
-    "typescript": "^2.6.2",
-    "webpack": "^1.12.12",
-    "webpack-dev-server": "^1.14.1"
+    "babel-loader": "^8.0.4",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-redux": "^6.0.1",
+    "react-vcomponents": "0.0.5",
+    "react-vextensions": "0.0.6",
+    "redux": "^4.0.1",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
   },
   "dependencies": {
     "classnames": "^2.2.5",

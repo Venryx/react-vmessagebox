@@ -1,15 +1,14 @@
 import {BaseComponent, AddGlobalStyle} from "react-vextensions";
 import Modal from "react-modal";
-import {connect} from "react-redux";
+import {Provider, connect} from "react-redux";
 import {Button} from "react-vcomponents";
-import { voidy } from "./General";
+import { voidy, E } from "./General";
 import Action from "./Action";
+import {store} from "./Store";
 //import React from "react";
 
 declare var require;
 var React = require("react");
-
-declare var store;
 
 export class MessageBoxOptions {
 	overlayStyle?: any;
@@ -76,16 +75,6 @@ export function ShowMessageBox(options: {[P in keyof MessageBoxOptions]?: Messag
 	return boxController;
 }
 
-export class MessageBoxState {
-	openBoxID: number;
-	updateCallCount: number;
-}
-export function MessageBoxReducer(state = new MessageBoxState(), action: Action<any>) {
-	if (action.type == "ACTMessageBoxShow") return {...state, openBoxID: action.payload.boxID};
-	if (action.type == "ACTMessageBoxUpdate") return {...state, updateCallCount: (state.updateCallCount|0) + 1};
-	return state;
-}
-
 AddGlobalStyle(`
 .ReactModal__Overlay { z-index: 1; }
 `);
@@ -110,11 +99,21 @@ let styles = {
 	buttonBar: {marginLeft: 20, marginBottom: 20, marginRight: 20},
 };
 
+export class MessageBoxUI extends BaseComponent<{}, {}> {
+	render() {
+		return (
+			<Provider store={store}>
+				<MessageBoxUI_Inner/>
+			</Provider>
+		);
+	}
+}
+
 @connect(state=>({
-	openBoxID: store.getState().messageBox.openBoxID,
-	updateCallCount: store.getState().messageBox.updateCallCount, // just used to trigger update
+	openBoxID: store.getState().openBoxID,
+	updateCallCount: store.getState().updateCallCount, // just used to trigger update
 }))
-export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
+export class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
 	static defaultState = {offset: {x: 0, y: 0}};
 
 	ComponentWillReceiveProps(props) {
