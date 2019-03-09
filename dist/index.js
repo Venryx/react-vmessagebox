@@ -3209,7 +3209,9 @@ var reduxDevToolsConfig = {
   maxAge: 70,
   trace: true
 };
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(MessageBoxReducer, {}, redux__WEBPACK_IMPORTED_MODULE_0__["compose"].apply(void 0, _toConsumableArray([window["__REDUX_DEVTOOLS_EXTENSION__"] && window["__REDUX_DEVTOOLS_EXTENSION__"](reduxDevToolsConfig)].filter(function (a) {
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(MessageBoxReducer, {}, redux__WEBPACK_IMPORTED_MODULE_0__["compose"].apply(void 0, _toConsumableArray([// disabled for now, as there doesn't seem to be an easy way of telling the dev-tools-extension that this library's store should NOT be the default store to display
+  //window["__REDUX_DEVTOOLS_EXTENSION__"] && window["__REDUX_DEVTOOLS_EXTENSION__"](reduxDevToolsConfig),
+].filter(function (a) {
   return a;
 }))));
 

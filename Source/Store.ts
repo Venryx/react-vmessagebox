@@ -23,6 +23,7 @@ export const store = createStore(
 	MessageBoxReducer,
 	{},
 	compose(...[
-		window["__REDUX_DEVTOOLS_EXTENSION__"] && window["__REDUX_DEVTOOLS_EXTENSION__"](reduxDevToolsConfig),
+		// disabled for now, as there doesn't seem to be an easy way of telling the dev-tools-extension that this library's store should NOT be the default store to display
+		//window["__REDUX_DEVTOOLS_EXTENSION__"] && window["__REDUX_DEVTOOLS_EXTENSION__"](reduxDevToolsConfig),
 	].filter(a=>a)) as StoreEnhancer<any>,
 );
