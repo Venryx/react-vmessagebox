@@ -1,5 +1,5 @@
 import {compose, createStore, StoreEnhancer, combineReducers} from "redux";
-import Action from "./Action";
+import {Action} from "./Action";
 
 export class MessageBoxState {
 	openBoxID: number;

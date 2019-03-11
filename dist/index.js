@@ -108,21 +108,11 @@ module.exports = __webpack_require__(1);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _VMessageBox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MessageBoxOptions", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["MessageBoxOptions"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxShow", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["ACTMessageBoxShow"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxUpdate", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["ACTMessageBoxUpdate"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BoxController", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["BoxController"]; });
-
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox_Base", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["ShowMessageBox_Base"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["ShowMessageBox"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MessageBoxUI", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["MessageBoxUI"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MessageBoxUI_Inner", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["MessageBoxUI_Inner"]; });
 
 
 
@@ -132,14 +122,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxOptions", function() { return MessageBoxOptions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxShow", function() { return ACTMessageBoxShow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxUpdate", function() { return ACTMessageBoxUpdate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoxController", function() { return BoxController; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox_Base", function() { return ShowMessageBox_Base; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox", function() { return ShowMessageBox; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxUI", function() { return MessageBoxUI; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxUI_Inner", function() { return MessageBoxUI_Inner; });
 /* harmony import */ var react_vextensions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
 /* harmony import */ var react_vextensions__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_vextensions__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
@@ -149,8 +134,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_vcomponents__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(26);
 /* harmony import */ var react_vcomponents__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_vcomponents__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _General__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(27);
-/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(28);
-/* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(29);
+/* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(28);
+/* harmony import */ var _Structures__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(30);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
@@ -164,8 +151,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -189,89 +174,25 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
 
 var React = __webpack_require__(6);
 
-var MessageBoxOptions = function MessageBoxOptions() {
-  _classCallCheck(this, MessageBoxOptions);
-
-  this.okButton = true;
-  this.okButtonClickable = true;
-  this.cancelButton = false;
-  this.cancelOnOverlayClick = false;
-};
-var ACTMessageBoxShow =
-/*#__PURE__*/
-function (_Action) {
-  _inherits(ACTMessageBoxShow, _Action);
-
-  function ACTMessageBoxShow() {
-    _classCallCheck(this, ACTMessageBoxShow);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxShow).apply(this, arguments));
-  }
-
-  return ACTMessageBoxShow;
-}(_Action__WEBPACK_IMPORTED_MODULE_5__["default"]);
-var ACTMessageBoxUpdate =
-/*#__PURE__*/
-function (_Action2) {
-  _inherits(ACTMessageBoxUpdate, _Action2);
-
-  function ACTMessageBoxUpdate() {
-    _classCallCheck(this, ACTMessageBoxUpdate);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxUpdate).apply(this, arguments));
-  }
-
-  return ACTMessageBoxUpdate;
-}(_Action__WEBPACK_IMPORTED_MODULE_5__["default"]);
-var BoxController =
-/*#__PURE__*/
-function () {
-  function BoxController(options, boxID) {
-    _classCallCheck(this, BoxController);
-
-    this.options = options;
-    this.boxID = boxID;
-  }
-
-  _createClass(BoxController, [{
-    key: "UpdateUI",
-    value: function UpdateUI() {
-      var updateInnerUI = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      _Store__WEBPACK_IMPORTED_MODULE_6__["store"].dispatch(new ACTMessageBoxUpdate({
-        boxID: this.boxID,
-        updateInnerUI: updateInnerUI
-      }));
-    }
-  }, {
-    key: "Close",
-    value: function Close() {
-      _Store__WEBPACK_IMPORTED_MODULE_6__["store"].dispatch(new ACTMessageBoxShow({
-        boxID: null
-      }));
-    }
-  }]);
-
-  return BoxController;
-}();
 var lastBoxID = -1;
 var boxInfo = {};
 function ShowMessageBox_Base(options) {
   var boxID = ++lastBoxID;
-  var controller = new BoxController(options, boxID); // store options in extra storage, because ui-functions in it get ruined when put in Redux store
+  var controller = new _Structures__WEBPACK_IMPORTED_MODULE_6__["BoxController"](options, boxID); // store options in extra storage, because ui-functions in it get ruined when put in Redux store
 
   boxInfo[boxID] = {
     id: boxID,
     options: options,
     controller: controller
   };
-  _Store__WEBPACK_IMPORTED_MODULE_6__["store"].dispatch(new ACTMessageBoxShow({
+  _Store__WEBPACK_IMPORTED_MODULE_5__["store"].dispatch(new _Structures__WEBPACK_IMPORTED_MODULE_6__["ACTMessageBoxShow"]({
     boxID: boxID
   }));
   return controller;
 } //export function ShowMessageBox(options: Partial<MessageBoxOptions>) {
 
 function ShowMessageBox(options) {
-  var options_final = Object(_General__WEBPACK_IMPORTED_MODULE_4__["E"])(new MessageBoxOptions(), options);
+  var options_final = Object(_General__WEBPACK_IMPORTED_MODULE_4__["E"])(new _Structures__WEBPACK_IMPORTED_MODULE_6__["MessageBoxOptions"](), options);
   var boxController = ShowMessageBox_Base(options_final);
   return boxController;
 }
@@ -339,7 +260,7 @@ function (_BaseComponent) {
     key: "render",
     value: function render() {
       return React.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
-        store: _Store__WEBPACK_IMPORTED_MODULE_6__["store"]
+        store: _Store__WEBPACK_IMPORTED_MODULE_5__["store"]
       }, React.createElement(MessageBoxUI_Inner, null));
     }
   }]);
@@ -398,7 +319,7 @@ function (_BaseComponent2) {
         shouldCloseOnOverlayClick: o.cancelOnOverlayClick,
         onRequestClose: function onRequestClose() {
           if (o.onCancel && o.onCancel() === false) return;
-          _Store__WEBPACK_IMPORTED_MODULE_6__["store"].dispatch(new ACTMessageBoxShow({
+          _Store__WEBPACK_IMPORTED_MODULE_5__["store"].dispatch(new _Structures__WEBPACK_IMPORTED_MODULE_6__["ACTMessageBoxShow"]({
             boxID: null
           }));
         }
@@ -466,11 +387,10 @@ MessageBoxUI_Inner.defaultState = {
 };
 MessageBoxUI_Inner = __decorate([Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(function (state) {
   return {
-    openBoxID: _Store__WEBPACK_IMPORTED_MODULE_6__["store"].getState().openBoxID,
-    updateCallCount: _Store__WEBPACK_IMPORTED_MODULE_6__["store"].getState().updateCallCount
+    openBoxID: _Store__WEBPACK_IMPORTED_MODULE_5__["store"].getState().openBoxID,
+    updateCallCount: _Store__WEBPACK_IMPORTED_MODULE_5__["store"].getState().updateCallCount
   };
 })], MessageBoxUI_Inner);
-
 
 /***/ }),
 /* 3 */
@@ -3139,42 +3059,9 @@ function AssertWarn(condition, messageOrMessageFunc) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Action; });
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Action = function Action(payload) {
-  _classCallCheck(this, Action);
-
-  this.type = this.constructor.name;
-  this.payload = payload; //this.Extend(payload);
-
-  Object.setPrototypeOf(this, Object.getPrototypeOf({}));
-};
-/*Object.prototype._AddFunction("Is", Action.prototype.Is);
-Object.prototype._AddFunction("IsAny", Action.prototype.IsAny);*/
-
-/*export function IsACT<Props>(action, actionType: new(..._)=>Action<Props>): action is Props {
-    return action.type == actionType.name;
-    //return action instanceof actionType; // alternative
-}*/
-
-/*export function IsACT<T, Props>(action: Action<T>, actionType: new(..._)=>Action<Props>): action is Props {
-    return this.type == actionType.name;
-    //return this instanceof actionType; // alternative
-}*/
-
-
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxState", function() { return MessageBoxState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux__WEBPACK_IMPORTED_MODULE_0__);
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -3216,10 +3103,137 @@ var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(MessageBox
 }))));
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = require("redux");
+
+/***/ }),
+/* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxOptions", function() { return MessageBoxOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxShow", function() { return ACTMessageBoxShow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxUpdate", function() { return ACTMessageBoxUpdate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoxController", function() { return BoxController; });
+/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
+/* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var MessageBoxOptions = function MessageBoxOptions() {
+  _classCallCheck(this, MessageBoxOptions);
+
+  this.okButton = true;
+  this.okButtonClickable = true;
+  this.cancelButton = false;
+  this.cancelOnOverlayClick = false;
+};
+var ACTMessageBoxShow =
+/*#__PURE__*/
+function (_Action) {
+  _inherits(ACTMessageBoxShow, _Action);
+
+  function ACTMessageBoxShow() {
+    _classCallCheck(this, ACTMessageBoxShow);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxShow).apply(this, arguments));
+  }
+
+  return ACTMessageBoxShow;
+}(_Action__WEBPACK_IMPORTED_MODULE_0__["Action"]);
+var ACTMessageBoxUpdate =
+/*#__PURE__*/
+function (_Action2) {
+  _inherits(ACTMessageBoxUpdate, _Action2);
+
+  function ACTMessageBoxUpdate() {
+    _classCallCheck(this, ACTMessageBoxUpdate);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxUpdate).apply(this, arguments));
+  }
+
+  return ACTMessageBoxUpdate;
+}(_Action__WEBPACK_IMPORTED_MODULE_0__["Action"]);
+var BoxController =
+/*#__PURE__*/
+function () {
+  function BoxController(options, boxID) {
+    _classCallCheck(this, BoxController);
+
+    this.options = options;
+    this.boxID = boxID;
+  }
+
+  _createClass(BoxController, [{
+    key: "UpdateUI",
+    value: function UpdateUI() {
+      var updateInnerUI = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      _Store__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch(new ACTMessageBoxUpdate({
+        boxID: this.boxID,
+        updateInnerUI: updateInnerUI
+      }));
+    }
+  }, {
+    key: "Close",
+    value: function Close() {
+      _Store__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch(new ACTMessageBoxShow({
+        boxID: null
+      }));
+    }
+  }]);
+
+  return BoxController;
+}();
+
+/***/ }),
+/* 31 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Action", function() { return Action; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Action = function Action(payload) {
+  _classCallCheck(this, Action);
+
+  this.type = this.constructor.name;
+  this.payload = payload; //this.Extend(payload);
+
+  Object.setPrototypeOf(this, Object.getPrototypeOf({}));
+};
+/*Object.prototype._AddFunction("Is", Action.prototype.Is);
+Object.prototype._AddFunction("IsAny", Action.prototype.IsAny);*/
+
+/*export function IsACT<Props>(action, actionType: new(..._)=>Action<Props>): action is Props {
+    return action.type == actionType.name;
+    //return action instanceof actionType; // alternative
+}*/
+
+/*export function IsACT<T, Props>(action: Action<T>, actionType: new(..._)=>Action<Props>): action is Props {
+    return this.type == actionType.name;
+    //return this instanceof actionType; // alternative
+}*/
 
 /***/ })
 /******/ ]);

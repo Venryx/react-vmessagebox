@@ -3,57 +3,13 @@ import Modal from "react-modal";
 import {Provider, connect} from "react-redux";
 import {Button} from "react-vcomponents";
 import { voidy, E } from "./General";
-import Action from "./Action";
+import {Action} from "./Action";
 import {store} from "./Store";
+import {BoxInfo, MessageBoxOptions, BoxController, ACTMessageBoxShow} from "./Structures";
 //import React from "react";
 
 declare var require;
 var React = require("react");
-
-export class MessageBoxOptions {
-	overlayStyle?: any;
-	containerStyle?: any;
-	
-	title?: string | (()=>JSX.Element);
-	titleStyle?: any;
-
-	message?: string | (()=>JSX.Element);
-	messageStyle?: any;
-
-	okButton = true;
-	okButtonClickable = true;
-	onOK?: ()=>boolean | voidy;
-
-	cancelButton = false;
-	cancelOnOverlayClick = false;
-	onCancel?: ()=>boolean | voidy;
-
-	buttonBarStyle?: any;
-}
-export class ACTMessageBoxShow extends Action<{boxID: number}> {}
-export class ACTMessageBoxUpdate extends Action<{boxID: number, updateInnerUI: boolean}> {}
-
-export class BoxController {
-	constructor(options: MessageBoxOptions, boxID: number) {
-		this.options = options;
-		this.boxID = boxID;
-	}
-	options: MessageBoxOptions;
-	boxID: number;
-
-	UpdateUI(updateInnerUI = true) {
-		store.dispatch(new ACTMessageBoxUpdate({boxID: this.boxID, updateInnerUI}));
-	}
-	Close() {
-		store.dispatch(new ACTMessageBoxShow({boxID: null}));
-	}
-}
-
-export type BoxInfo = {
-	id: number;
-	options: MessageBoxOptions;
-	controller: BoxController;
-};
 
 let lastBoxID = -1;
 let boxInfo = {} as {[key: number]: BoxInfo};
@@ -113,7 +69,7 @@ export class MessageBoxUI extends BaseComponent<{}, {}> {
 	openBoxID: store.getState().openBoxID,
 	updateCallCount: store.getState().updateCallCount, // just used to trigger update
 }))
-export class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
+class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
 	static defaultState = {offset: {x: 0, y: 0}};
 
 	ComponentWillReceiveProps(props) {
