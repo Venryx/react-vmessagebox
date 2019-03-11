@@ -107,12 +107,16 @@ module.exports = __webpack_require__(1);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _VMessageBox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox_Base", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["ShowMessageBox_Base"]; });
+/* harmony import */ var _Structures__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BoxController", function() { return _Structures__WEBPACK_IMPORTED_MODULE_0__["BoxController"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["ShowMessageBox"]; });
+/* harmony import */ var _VMessageBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox_Base", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_1__["ShowMessageBox_Base"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MessageBoxUI", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_0__["MessageBoxUI"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_1__["ShowMessageBox"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MessageBoxUI", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_1__["MessageBoxUI"]; });
+
 
 
 

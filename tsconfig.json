@@ -20,8 +20,9 @@
 		"noImplicitAny": false,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
+
 		"declaration": true,
-		"declarationDir": "."
+		"declarationDir": "Dist"
 	},
 	"files": ["Source/index.ts"],
 	"include": [
