@@ -14,6 +14,7 @@ export declare class MessageBoxOptions {
     cancelButton: boolean;
     cancelOnOverlayClick: boolean;
     onCancel?: () => boolean | voidy;
+    extraButtons: (() => JSX.Element);
     buttonBarStyle?: any;
 }
 export declare class ACTMessageBoxShow extends Action<{

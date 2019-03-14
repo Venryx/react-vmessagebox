@@ -131,7 +131,7 @@ class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, 
 					<div style={E(styles.message, o.messageStyle)}>
 						{typeof o.message == "string" ? o.message : o.message()}
 					</div>}
-				{(o.okButton || o.cancelButton) &&
+				{(o.okButton || o.cancelButton || o.extraButtons) &&
 					<div style={E(styles.buttonBar, o.buttonBarStyle)}>
 						{o.okButton &&
 							<Button text="OK" enabled={o.okButtonClickable}
@@ -144,6 +144,7 @@ class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, 
 								if (o.onCancel && o.onCancel() === false) return;
 								controller.Close();
 							}}/>}
+						{o.extraButtons && o.extraButtons()}
 					</div>}
 			</Modal>
 		);

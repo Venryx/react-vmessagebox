@@ -21,6 +21,7 @@ export class MessageBoxOptions {
 	cancelOnOverlayClick = false;
 	onCancel?: ()=>boolean | voidy;
 
+	extraButtons: (()=>JSX.Element);
 	buttonBarStyle?: any;
 }
 export class ACTMessageBoxShow extends Action<{boxID: number}> {}

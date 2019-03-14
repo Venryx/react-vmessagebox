@@ -107,10 +107,10 @@ module.exports = __webpack_require__(1);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Structures__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30);
+/* harmony import */ var _Structures__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "BoxController", function() { return _Structures__WEBPACK_IMPORTED_MODULE_0__["BoxController"]; });
 
-/* harmony import */ var _VMessageBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _VMessageBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox_Base", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_1__["ShowMessageBox_Base"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox", function() { return _VMessageBox__WEBPACK_IMPORTED_MODULE_1__["ShowMessageBox"]; });
@@ -126,20 +126,202 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxOptions", function() { return MessageBoxOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxShow", function() { return ACTMessageBoxShow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxUpdate", function() { return ACTMessageBoxUpdate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoxController", function() { return BoxController; });
+/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var MessageBoxOptions = function MessageBoxOptions() {
+  _classCallCheck(this, MessageBoxOptions);
+
+  this.okButton = true;
+  this.okButtonClickable = true;
+  this.cancelButton = false;
+  this.cancelOnOverlayClick = false;
+};
+var ACTMessageBoxShow =
+/*#__PURE__*/
+function (_Action) {
+  _inherits(ACTMessageBoxShow, _Action);
+
+  function ACTMessageBoxShow() {
+    _classCallCheck(this, ACTMessageBoxShow);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxShow).apply(this, arguments));
+  }
+
+  return ACTMessageBoxShow;
+}(_Action__WEBPACK_IMPORTED_MODULE_0__["Action"]);
+var ACTMessageBoxUpdate =
+/*#__PURE__*/
+function (_Action2) {
+  _inherits(ACTMessageBoxUpdate, _Action2);
+
+  function ACTMessageBoxUpdate() {
+    _classCallCheck(this, ACTMessageBoxUpdate);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxUpdate).apply(this, arguments));
+  }
+
+  return ACTMessageBoxUpdate;
+}(_Action__WEBPACK_IMPORTED_MODULE_0__["Action"]);
+var BoxController =
+/*#__PURE__*/
+function () {
+  function BoxController(options, boxID) {
+    _classCallCheck(this, BoxController);
+
+    this.options = options;
+    this.boxID = boxID;
+  }
+
+  _createClass(BoxController, [{
+    key: "UpdateUI",
+    value: function UpdateUI() {
+      var updateInnerUI = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+      _Store__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch(new ACTMessageBoxUpdate({
+        boxID: this.boxID,
+        updateInnerUI: updateInnerUI
+      }));
+    }
+  }, {
+    key: "Close",
+    value: function Close() {
+      _Store__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch(new ACTMessageBoxShow({
+        boxID: null
+      }));
+    }
+  }]);
+
+  return BoxController;
+}();
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Action", function() { return Action; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Action = function Action(payload) {
+  _classCallCheck(this, Action);
+
+  this.type = this.constructor.name;
+  this.payload = payload; //this.Extend(payload);
+
+  Object.setPrototypeOf(this, Object.getPrototypeOf({}));
+};
+/*Object.prototype._AddFunction("Is", Action.prototype.Is);
+Object.prototype._AddFunction("IsAny", Action.prototype.IsAny);*/
+
+/*export function IsACT<Props>(action, actionType: new(..._)=>Action<Props>): action is Props {
+    return action.type == actionType.name;
+    //return action instanceof actionType; // alternative
+}*/
+
+/*export function IsACT<T, Props>(action: Action<T>, actionType: new(..._)=>Action<Props>): action is Props {
+    return this.type == actionType.name;
+    //return this instanceof actionType; // alternative
+}*/
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxState", function() { return MessageBoxState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux__WEBPACK_IMPORTED_MODULE_0__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+var MessageBoxState = function MessageBoxState() {
+  _classCallCheck(this, MessageBoxState);
+};
+/*let rootReducer = combineReducers({
+});*/
+
+function MessageBoxReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new MessageBoxState();
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  if (action.type == "ACTMessageBoxShow") return Object.assign({}, state, {
+    openBoxID: action.payload.boxID
+  });
+  if (action.type == "ACTMessageBoxUpdate") return Object.assign({}, state, {
+    updateCallCount: (state.updateCallCount | 0) + 1
+  });
+  return state;
+}
+
+var reduxDevToolsConfig = {
+  maxAge: 70,
+  trace: true
+};
+var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(MessageBoxReducer, {}, redux__WEBPACK_IMPORTED_MODULE_0__["compose"].apply(void 0, _toConsumableArray([// disabled for now, as there doesn't seem to be an easy way of telling the dev-tools-extension that this library's store should NOT be the default store to display
+  //window["__REDUX_DEVTOOLS_EXTENSION__"] && window["__REDUX_DEVTOOLS_EXTENSION__"](reduxDevToolsConfig),
+].filter(function (a) {
+  return a;
+}))));
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = require("redux");
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox_Base", function() { return ShowMessageBox_Base; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShowMessageBox", function() { return ShowMessageBox; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxUI", function() { return MessageBoxUI; });
-/* harmony import */ var react_vextensions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+/* harmony import */ var react_vextensions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
 /* harmony import */ var react_vextensions__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_vextensions__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
+/* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_vcomponents__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(26);
+/* harmony import */ var react_vcomponents__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(30);
 /* harmony import */ var react_vcomponents__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_vcomponents__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _General__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(27);
-/* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(28);
-/* harmony import */ var _Structures__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(30);
+/* harmony import */ var _General__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(31);
+/* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+/* harmony import */ var _Structures__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -176,7 +358,7 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
 
 
 
-var React = __webpack_require__(6);
+var React = __webpack_require__(10);
 
 var lastBoxID = -1;
 var boxInfo = {};
@@ -360,7 +542,7 @@ function (_BaseComponent2) {
         }
       }, typeof o.title == "string" ? o.title : o.title()), o.message != null && React.createElement("div", {
         style: Object(_General__WEBPACK_IMPORTED_MODULE_4__["E"])(styles.message, o.messageStyle)
-      }, typeof o.message == "string" ? o.message : o.message()), (o.okButton || o.cancelButton) && React.createElement("div", {
+      }, typeof o.message == "string" ? o.message : o.message()), (o.okButton || o.cancelButton || o.extraButtons) && React.createElement("div", {
         style: Object(_General__WEBPACK_IMPORTED_MODULE_4__["E"])(styles.buttonBar, o.buttonBarStyle)
       }, o.okButton && React.createElement(react_vcomponents__WEBPACK_IMPORTED_MODULE_3__["Button"], {
         text: "OK",
@@ -376,7 +558,7 @@ function (_BaseComponent2) {
           if (o.onCancel && o.onCancel() === false) return;
           controller.Close();
         }
-      })));
+      }), o.extraButtons && o.extraButtons()));
     }
   }]);
 
@@ -397,13 +579,13 @@ MessageBoxUI_Inner = __decorate([Object(react_redux__WEBPACK_IMPORTED_MODULE_2__
 })], MessageBoxUI_Inner);
 
 /***/ }),
-/* 3 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-vextensions");
 
 /***/ }),
-/* 4 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -413,7 +595,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Modal = __webpack_require__(5);
+var _Modal = __webpack_require__(9);
 
 var _Modal2 = _interopRequireDefault(_Modal);
 
@@ -423,7 +605,7 @@ exports.default = _Modal2.default;
 module.exports = exports["default"];
 
 /***/ }),
-/* 5 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -438,31 +620,31 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(6);
+var _react = __webpack_require__(10);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(7);
+var _reactDom = __webpack_require__(11);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _propTypes = __webpack_require__(8);
+var _propTypes = __webpack_require__(12);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _ModalPortal = __webpack_require__(15);
+var _ModalPortal = __webpack_require__(19);
 
 var _ModalPortal2 = _interopRequireDefault(_ModalPortal);
 
-var _ariaAppHider = __webpack_require__(19);
+var _ariaAppHider = __webpack_require__(23);
 
 var ariaAppHider = _interopRequireWildcard(_ariaAppHider);
 
-var _safeHTMLElement = __webpack_require__(21);
+var _safeHTMLElement = __webpack_require__(25);
 
 var _safeHTMLElement2 = _interopRequireDefault(_safeHTMLElement);
 
-var _reactLifecyclesCompat = __webpack_require__(24);
+var _reactLifecyclesCompat = __webpack_require__(28);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -695,19 +877,19 @@ Modal.defaultStyles = {
 exports.default = Modal;
 
 /***/ }),
-/* 6 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = require("react");
 
 /***/ }),
-/* 7 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-dom");
 
 /***/ }),
-/* 8 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -718,29 +900,29 @@ module.exports = require("react-dom");
  */
 
 if (true) {
-  var ReactIs = __webpack_require__(9);
+  var ReactIs = __webpack_require__(13);
 
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(11)(ReactIs.isElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(15)(ReactIs.isElement, throwOnDirectAccess);
 } else {}
 
 
 /***/ }),
-/* 9 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 if (false) {} else {
-  module.exports = __webpack_require__(10);
+  module.exports = __webpack_require__(14);
 }
 
 
 /***/ }),
-/* 10 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -974,7 +1156,7 @@ exports.isSuspense = isSuspense;
 
 
 /***/ }),
-/* 11 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -987,11 +1169,11 @@ exports.isSuspense = isSuspense;
 
 
 
-var ReactIs = __webpack_require__(9);
-var assign = __webpack_require__(12);
+var ReactIs = __webpack_require__(13);
+var assign = __webpack_require__(16);
 
-var ReactPropTypesSecret = __webpack_require__(13);
-var checkPropTypes = __webpack_require__(14);
+var ReactPropTypesSecret = __webpack_require__(17);
+var checkPropTypes = __webpack_require__(18);
 
 var has = Function.call.bind(Object.prototype.hasOwnProperty);
 var printWarning = function() {};
@@ -1572,7 +1754,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 /***/ }),
-/* 12 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1669,7 +1851,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 /***/ }),
-/* 13 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1688,7 +1870,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 14 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1704,7 +1886,7 @@ module.exports = ReactPropTypesSecret;
 var printWarning = function() {};
 
 if (true) {
-  var ReactPropTypesSecret = __webpack_require__(13);
+  var ReactPropTypesSecret = __webpack_require__(17);
   var loggedTypeFailures = {};
   var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
@@ -1797,7 +1979,7 @@ module.exports = checkPropTypes;
 
 
 /***/ }),
-/* 15 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1813,31 +1995,31 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(6);
+var _react = __webpack_require__(10);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(8);
+var _propTypes = __webpack_require__(12);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _focusManager = __webpack_require__(16);
+var _focusManager = __webpack_require__(20);
 
 var focusManager = _interopRequireWildcard(_focusManager);
 
-var _scopeTab = __webpack_require__(18);
+var _scopeTab = __webpack_require__(22);
 
 var _scopeTab2 = _interopRequireDefault(_scopeTab);
 
-var _ariaAppHider = __webpack_require__(19);
+var _ariaAppHider = __webpack_require__(23);
 
 var ariaAppHider = _interopRequireWildcard(_ariaAppHider);
 
-var _classList = __webpack_require__(23);
+var _classList = __webpack_require__(27);
 
 var classList = _interopRequireWildcard(_classList);
 
-var _safeHTMLElement = __webpack_require__(21);
+var _safeHTMLElement = __webpack_require__(25);
 
 var _safeHTMLElement2 = _interopRequireDefault(_safeHTMLElement);
 
@@ -2208,7 +2390,7 @@ exports.default = ModalPortal;
 module.exports = exports["default"];
 
 /***/ }),
-/* 16 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2225,7 +2407,7 @@ exports.popWithoutFocus = popWithoutFocus;
 exports.setupScopedFocus = setupScopedFocus;
 exports.teardownScopedFocus = teardownScopedFocus;
 
-var _tabbable = __webpack_require__(17);
+var _tabbable = __webpack_require__(21);
 
 var _tabbable2 = _interopRequireDefault(_tabbable);
 
@@ -2308,7 +2490,7 @@ function teardownScopedFocus() {
 }
 
 /***/ }),
-/* 17 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2372,7 +2554,7 @@ function findTabbableDescendants(element) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 18 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2383,7 +2565,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = scopeTab;
 
-var _tabbable = __webpack_require__(17);
+var _tabbable = __webpack_require__(21);
 
 var _tabbable2 = _interopRequireDefault(_tabbable);
 
@@ -2464,7 +2646,7 @@ function scopeTab(node, event) {
 module.exports = exports["default"];
 
 /***/ }),
-/* 19 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2481,11 +2663,11 @@ exports.show = show;
 exports.documentNotReadyOrSSRTesting = documentNotReadyOrSSRTesting;
 exports.resetForTesting = resetForTesting;
 
-var _warning = __webpack_require__(20);
+var _warning = __webpack_require__(24);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _safeHTMLElement = __webpack_require__(21);
+var _safeHTMLElement = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2539,7 +2721,7 @@ function resetForTesting() {
 }
 
 /***/ }),
-/* 20 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2606,7 +2788,7 @@ module.exports = warning;
 
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2617,7 +2799,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.canUseDOM = undefined;
 
-var _exenv = __webpack_require__(22);
+var _exenv = __webpack_require__(26);
 
 var _exenv2 = _interopRequireDefault(_exenv);
 
@@ -2632,7 +2814,7 @@ var canUseDOM = exports.canUseDOM = EE.canUseDOM;
 exports.default = SafeHTMLElement;
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -2675,7 +2857,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2788,7 +2970,7 @@ var remove = exports.remove = function remove(element, classString) {
 };
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2955,19 +3137,19 @@ function polyfill(Component) {
 
 
 /***/ }),
-/* 25 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-redux");
 
 /***/ }),
-/* 26 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = require("react-vcomponents");
 
 /***/ }),
-/* 27 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3056,188 +3238,6 @@ function AssertWarn(condition, messageOrMessageFunc) {
   var message = messageOrMessageFunc instanceof Function ? messageOrMessageFunc() : messageOrMessageFunc;
   console.warn("Assert-warn failed) ".concat(message, "\n\nStackTrace)")); // ${GetStackTraceStr()}`);
 }
-
-/***/ }),
-/* 28 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxState", function() { return MessageBoxState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux__WEBPACK_IMPORTED_MODULE_0__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-var MessageBoxState = function MessageBoxState() {
-  _classCallCheck(this, MessageBoxState);
-};
-/*let rootReducer = combineReducers({
-});*/
-
-function MessageBoxReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new MessageBoxState();
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-  if (action.type == "ACTMessageBoxShow") return Object.assign({}, state, {
-    openBoxID: action.payload.boxID
-  });
-  if (action.type == "ACTMessageBoxUpdate") return Object.assign({}, state, {
-    updateCallCount: (state.updateCallCount | 0) + 1
-  });
-  return state;
-}
-
-var reduxDevToolsConfig = {
-  maxAge: 70,
-  trace: true
-};
-var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(MessageBoxReducer, {}, redux__WEBPACK_IMPORTED_MODULE_0__["compose"].apply(void 0, _toConsumableArray([// disabled for now, as there doesn't seem to be an easy way of telling the dev-tools-extension that this library's store should NOT be the default store to display
-  //window["__REDUX_DEVTOOLS_EXTENSION__"] && window["__REDUX_DEVTOOLS_EXTENSION__"](reduxDevToolsConfig),
-].filter(function (a) {
-  return a;
-}))));
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-module.exports = require("redux");
-
-/***/ }),
-/* 30 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageBoxOptions", function() { return MessageBoxOptions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxShow", function() { return ACTMessageBoxShow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTMessageBoxUpdate", function() { return ACTMessageBoxUpdate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoxController", function() { return BoxController; });
-/* harmony import */ var _Action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
-/* harmony import */ var _Store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(28);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-var MessageBoxOptions = function MessageBoxOptions() {
-  _classCallCheck(this, MessageBoxOptions);
-
-  this.okButton = true;
-  this.okButtonClickable = true;
-  this.cancelButton = false;
-  this.cancelOnOverlayClick = false;
-};
-var ACTMessageBoxShow =
-/*#__PURE__*/
-function (_Action) {
-  _inherits(ACTMessageBoxShow, _Action);
-
-  function ACTMessageBoxShow() {
-    _classCallCheck(this, ACTMessageBoxShow);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxShow).apply(this, arguments));
-  }
-
-  return ACTMessageBoxShow;
-}(_Action__WEBPACK_IMPORTED_MODULE_0__["Action"]);
-var ACTMessageBoxUpdate =
-/*#__PURE__*/
-function (_Action2) {
-  _inherits(ACTMessageBoxUpdate, _Action2);
-
-  function ACTMessageBoxUpdate() {
-    _classCallCheck(this, ACTMessageBoxUpdate);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(ACTMessageBoxUpdate).apply(this, arguments));
-  }
-
-  return ACTMessageBoxUpdate;
-}(_Action__WEBPACK_IMPORTED_MODULE_0__["Action"]);
-var BoxController =
-/*#__PURE__*/
-function () {
-  function BoxController(options, boxID) {
-    _classCallCheck(this, BoxController);
-
-    this.options = options;
-    this.boxID = boxID;
-  }
-
-  _createClass(BoxController, [{
-    key: "UpdateUI",
-    value: function UpdateUI() {
-      var updateInnerUI = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      _Store__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch(new ACTMessageBoxUpdate({
-        boxID: this.boxID,
-        updateInnerUI: updateInnerUI
-      }));
-    }
-  }, {
-    key: "Close",
-    value: function Close() {
-      _Store__WEBPACK_IMPORTED_MODULE_1__["store"].dispatch(new ACTMessageBoxShow({
-        boxID: null
-      }));
-    }
-  }]);
-
-  return BoxController;
-}();
-
-/***/ }),
-/* 31 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Action", function() { return Action; });
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Action = function Action(payload) {
-  _classCallCheck(this, Action);
-
-  this.type = this.constructor.name;
-  this.payload = payload; //this.Extend(payload);
-
-  Object.setPrototypeOf(this, Object.getPrototypeOf({}));
-};
-/*Object.prototype._AddFunction("Is", Action.prototype.Is);
-Object.prototype._AddFunction("IsAny", Action.prototype.IsAny);*/
-
-/*export function IsACT<Props>(action, actionType: new(..._)=>Action<Props>): action is Props {
-    return action.type == actionType.name;
-    //return action instanceof actionType; // alternative
-}*/
-
-/*export function IsACT<T, Props>(action: Action<T>, actionType: new(..._)=>Action<Props>): action is Props {
-    return this.type == actionType.name;
-    //return this instanceof actionType; // alternative
-}*/
 
 /***/ })
 /******/ ]);
