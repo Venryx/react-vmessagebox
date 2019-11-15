@@ -277,10 +277,10 @@ var MessageBoxState = function MessageBoxState() {
 function MessageBoxReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new MessageBoxState();
   var action = arguments.length > 1 ? arguments[1] : undefined;
-  if (action.type == "ACTMessageBoxShow") return Object.assign({}, state, {
+  if (action.type == "ACTMessageBoxShow") return Object.assign(Object.assign({}, state), {
     openBoxID: action.payload.boxID
   });
-  if (action.type == "ACTMessageBoxUpdate") return Object.assign({}, state, {
+  if (action.type == "ACTMessageBoxUpdate") return Object.assign(Object.assign({}, state), {
     updateCallCount: (state.updateCallCount | 0) + 1
   });
   return state;
@@ -2113,7 +2113,10 @@ var ModalPortal = function (_Component) {
           _this.setState({ afterOpen: true });
 
           if (_this.props.isOpen && _this.props.onAfterOpen) {
-            _this.props.onAfterOpen();
+            _this.props.onAfterOpen({
+              overlayEl: _this.overlay,
+              contentEl: _this.content
+            });
           }
         });
       }
@@ -2275,7 +2278,9 @@ var ModalPortal = function (_Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.afterClose();
+      if (this.state.isOpen) {
+        this.afterClose();
+      }
       clearTimeout(this.closeTimer);
     }
   }, {
@@ -2305,6 +2310,7 @@ var ModalPortal = function (_Component) {
     key: "render",
     value: function render() {
       var _props2 = this.props,
+          id = _props2.id,
           className = _props2.className,
           overlayClassName = _props2.overlayClassName,
           defaultStyles = _props2.defaultStyles;
@@ -2324,6 +2330,7 @@ var ModalPortal = function (_Component) {
         _react2.default.createElement(
           "div",
           _extends({
+            id: id,
             ref: this.setContentRef,
             style: _extends({}, contentStyles, this.props.style.content),
             className: this.buildClassName("content", className),
@@ -2384,6 +2391,7 @@ ModalPortal.propTypes = {
   shouldCloseOnEsc: _propTypes2.default.bool,
   overlayRef: _propTypes2.default.func,
   contentRef: _propTypes2.default.func,
+  id: _propTypes2.default.string,
   testId: _propTypes2.default.string
 };
 exports.default = ModalPortal;
@@ -2522,7 +2530,9 @@ function hidesContents(element) {
 
   // Otherwise we need to check some styles
   var style = window.getComputedStyle(element);
-  return zeroSize ? style.getPropertyValue("overflow") !== "visible" : style.getPropertyValue("display") == "none";
+  return zeroSize ? style.getPropertyValue("overflow") !== "visible" ||
+  // if 'overflow: visible' set, check if there is actually any overflow
+  element.scrollWidth <= 0 && element.scrollHeight <= 0 : style.getPropertyValue("display") == "none";
 }
 
 function visible(element) {
@@ -2726,12 +2736,10 @@ function resetForTesting() {
 
 "use strict";
 /**
- * Copyright 2014-2015, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) 2014-present, Facebook, Inc.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 
@@ -2743,9 +2751,33 @@ function resetForTesting() {
  * same logic and follow the same code paths.
  */
 
+var __DEV__ = "none" !== 'production';
+
 var warning = function() {};
 
-if (true) {
+if (__DEV__) {
+  var printWarning = function printWarning(format, args) {
+    var len = arguments.length;
+    args = new Array(len > 1 ? len - 1 : 0);
+    for (var key = 1; key < len; key++) {
+      args[key - 1] = arguments[key];
+    }
+    var argIndex = 0;
+    var message = 'Warning: ' +
+      format.replace(/%s/g, function() {
+        return args[argIndex++];
+      });
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  }
+
   warning = function(condition, format, args) {
     var len = arguments.length;
     args = new Array(len > 2 ? len - 2 : 0);
@@ -2754,32 +2786,12 @@ if (true) {
     }
     if (format === undefined) {
       throw new Error(
-        '`warning(condition, format, ...args)` requires a warning ' +
-        'message argument'
+          '`warning(condition, format, ...args)` requires a warning ' +
+          'message argument'
       );
     }
-
-    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
-      throw new Error(
-        'The warning format should be able to uniquely identify this ' +
-        'warning. Please, use a more descriptive format than: ' + format
-      );
-    }
-
     if (!condition) {
-      var argIndex = 0;
-      var message = 'Warning: ' +
-        format.replace(/%s/g, function() {
-          return args[argIndex++];
-        });
-      if (typeof console !== 'undefined') {
-        console.error(message);
-      }
-      try {
-        // This error was thrown as a convenience so that you can use this stack
-        // to find the callsite that caused this warning to fire.
-        throw new Error(message);
-      } catch(x) {}
+      printWarning.apply(null, [format].concat(args));
     }
   };
 }
@@ -3176,8 +3188,8 @@ function E(e1, e2, e3, e4, e5, e6, e7, e8) {
     _iteratorError = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
       }
     } finally {
       if (_didIteratorError) {
@@ -3213,8 +3225,8 @@ function RemoveDuplicates(items) {
     _iteratorError2 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
+      if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+        _iterator2["return"]();
       }
     } finally {
       if (_didIteratorError2) {
