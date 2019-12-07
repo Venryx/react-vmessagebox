@@ -25,8 +25,6 @@ module.exports = {
 		"react-dom": "commonjs react-dom",
 		"react-vextensions": "commonjs react-vextensions",
 		"react-vcomponents": "commonjs react-vcomponents",
-		"react-redux": "commonjs react-redux",
-		"redux": "commonjs redux",
     },
     /*module: {
         noParse: ["react"]

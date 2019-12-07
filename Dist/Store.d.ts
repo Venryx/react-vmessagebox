@@ -1,5 +1,5 @@
-export declare class MessageBoxState {
+export declare class MessageBoxStore {
     openBoxID: number;
     updateCallCount: number;
 }
-export declare const store: any;
+export declare const store: MessageBoxStore;

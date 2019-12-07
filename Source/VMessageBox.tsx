@@ -1,11 +1,9 @@
 import {BaseComponent, AddGlobalStyle} from "react-vextensions";
 import Modal from "react-modal";
-import {Provider, connect} from "react-redux";
 import {Button} from "react-vcomponents";
 import { voidy, E } from "./General";
-import {Action} from "./Action";
+import {BoxInfo, MessageBoxOptions, BoxController} from "./Structures";
 import {store} from "./Store";
-import {BoxInfo, MessageBoxOptions, BoxController, ACTMessageBoxShow} from "./Structures";
 //import React from "react";
 
 declare var require;
@@ -17,10 +15,10 @@ export function ShowMessageBox_Base(options: MessageBoxOptions) {
 	let boxID = ++lastBoxID;
 	let controller = new BoxController(options, boxID);
 
-	// store options in extra storage, because ui-functions in it get ruined when put in Redux store
+	// store options in extra storage, because ui-functions in it get ruined when put in Redux store // todo: now that using mobx, maybe move it back
 	boxInfo[boxID] = {id: boxID, options, controller};
 
-	store.dispatch(new ACTMessageBoxShow({boxID}));
+	store.openBoxID = boxID;
 
 	return controller;
 }
@@ -55,21 +53,7 @@ let styles = {
 	buttonBar: {marginLeft: 20, marginBottom: 20, marginRight: 20},
 };
 
-export class MessageBoxUI extends BaseComponent<{}, {}> {
-	render() {
-		return (
-			<Provider store={store}>
-				<MessageBoxUI_Inner/>
-			</Provider>
-		);
-	}
-}
-
-@connect(state=>({
-	openBoxID: store.getState().openBoxID,
-	updateCallCount: store.getState().updateCallCount, // just used to trigger update
-}))
-class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
+export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
 	static defaultState = {offset: {x: 0, y: 0}};
 
 	ComponentWillReceiveProps(props) {
@@ -85,9 +69,10 @@ class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, 
 	moveBar_drag_mouseMoveListener: EventListener;
 	moveBar_drag_mouseUpListener: EventListener;
 	render() {
-		let {openBoxID} = this.props;
-		if (openBoxID == null) return <div/>;
-		let info = boxInfo[openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
+		if (store.openBoxID == null) return <div/>;
+		store.updateCallCount; // just access (used to trigger update, when val changed)
+
+		let info = boxInfo[store.openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
 		let {options: o, controller} = info;
 		let {offset} = this.state;
 
@@ -104,7 +89,7 @@ class MessageBoxUI_Inner extends BaseComponent<{} & Partial<{openBoxID: number, 
 					shouldCloseOnOverlayClick={o.cancelOnOverlayClick}
 					onRequestClose={()=> {
 						if (o.onCancel && o.onCancel() === false) return;
-						store.dispatch(new ACTMessageBoxShow({boxID: null}));
+						store.openBoxID = null;
 					}}>
 				{o.title != null &&
 					<div style={E(styles.title, o.titleStyle)}

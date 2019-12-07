@@ -1,6 +1,5 @@
 /// <reference types="react" />
 import { voidy } from "./General";
-import { Action } from "./Action";
 export declare class MessageBoxOptions {
     overlayStyle?: any;
     containerStyle?: any;
@@ -17,20 +16,11 @@ export declare class MessageBoxOptions {
     extraButtons: (() => JSX.Element);
     buttonBarStyle?: any;
 }
-export declare class ACTMessageBoxShow extends Action<{
-    boxID: number;
-}> {
-}
-export declare class ACTMessageBoxUpdate extends Action<{
-    boxID: number;
-    updateInnerUI: boolean;
-}> {
-}
 export declare class BoxController {
     constructor(options: MessageBoxOptions, boxID: number);
     options: MessageBoxOptions;
     boxID: number;
-    UpdateUI(updateInnerUI?: boolean): void;
+    UpdateUI(): void;
     Close(): void;
 }
 export declare type BoxInfo = {

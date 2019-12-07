@@ -1,6 +1,6 @@
 # React - VMessageBox
 
-Message-box solution built using ReactJS and Redux.
+Message-box solution built using ReactJS and MobX.
 
 ### Install
 

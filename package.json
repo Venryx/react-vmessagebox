@@ -1,7 +1,7 @@
 {
   "name": "react-vmessagebox",
   "version": "0.0.4",
-  "description": "Message-box solution built using ReactJS and Redux.",
+  "description": "Message-box solution built using ReactJS and MobX.",
   "main": "Dist/index.js",
   "typings": "Dist/index.d.ts",
   "scripts": {
@@ -26,12 +26,11 @@
   },
   "homepage": "https://github.com/Venryx/react-vmessagebox",
   "peerDependencies": {
+    "mobx": "^5.0.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
-    "react-redux": "^4.4.5",
     "react-vextensions": "^0.0.1",
-    "react-vcomponents": "^0.0.1",
-    "redux": "^3.6.0"
+    "react-vcomponents": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -40,19 +39,19 @@
     "@types/react": "^16.9.11",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.6",
+    "mobx": "^5.15.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-redux": "^6.0.1",
-    "react-vcomponents": "0.0.5",
-    "react-vextensions": "0.0.7",
-    "redux": "^4.0.1",
+    "react-vcomponents": "^1.0.3",
+    "react-vextensions": "^1.0.1",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.2",
+    "typescript": "^3.7.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "mobx-react": "^6.1.4",
     "react-modal": "^3.11.1"
   }
 }

@@ -1,6 +1,5 @@
 import {voidy} from "./General";
 
-import {Action} from "./Action";
 import {store} from "./Store";
 
 export class MessageBoxOptions {
@@ -24,8 +23,6 @@ export class MessageBoxOptions {
 	extraButtons: (()=>JSX.Element);
 	buttonBarStyle?: any;
 }
-export class ACTMessageBoxShow extends Action<{boxID: number}> {}
-export class ACTMessageBoxUpdate extends Action<{boxID: number, updateInnerUI: boolean}> {}
 
 export class BoxController {
 	constructor(options: MessageBoxOptions, boxID: number) {
@@ -35,11 +32,11 @@ export class BoxController {
 	options: MessageBoxOptions;
 	boxID: number;
 
-	UpdateUI(updateInnerUI = true) {
-		store.dispatch(new ACTMessageBoxUpdate({boxID: this.boxID, updateInnerUI}));
+	UpdateUI() { //updateInnerUI = true) {
+		store.updateCallCount++;
 	}
 	Close() {
-		store.dispatch(new ACTMessageBoxShow({boxID: null}));
+		store.openBoxID = null;
 	}
 }
 
