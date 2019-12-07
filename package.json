@@ -1,6 +1,6 @@
 {
   "name": "react-vmessagebox",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Message-box solution built using ReactJS and MobX.",
   "main": "Dist/index.js",
   "typings": "Dist/index.d.ts",
