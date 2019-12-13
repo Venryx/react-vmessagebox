@@ -1,6 +1,7 @@
 import {voidy} from "./General";
 
 import {store} from "./Store";
+import {runInAction} from "mobx";
 
 export class MessageBoxOptions {
 	overlayStyle?: any;
@@ -33,10 +34,10 @@ export class BoxController {
 	boxID: number;
 
 	UpdateUI() { //updateInnerUI = true) {
-		store.updateCallCount++;
+		runInAction("BoxController.UpdateUI", ()=>store.updateCallCount++);
 	}
 	Close() {
-		store.openBoxID = null;
+		runInAction("BoxController.Close", ()=>store.openBoxID = null);
 	}
 }
 

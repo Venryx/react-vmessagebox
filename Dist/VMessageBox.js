@@ -1,9 +1,18 @@
-import { BaseComponent, AddGlobalStyle } from "react-vextensions";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { AddGlobalStyle, BaseComponentPlus } from "react-vextensions";
 import Modal from "react-modal";
 import { Button } from "react-vcomponents";
 import { E } from "./General";
 import { MessageBoxOptions, BoxController } from "./Structures";
 import { store } from "./Store";
+//import React from "react";
+import { observer } from "mobx-react";
+import { runInAction } from "mobx";
 var React = require("react");
 let lastBoxID = -1;
 let boxInfo = {};
@@ -12,7 +21,7 @@ export function ShowMessageBox_Base(options) {
     let controller = new BoxController(options, boxID);
     // store options in extra storage, because ui-functions in it get ruined when put in Redux store // todo: now that using mobx, maybe move it back
     boxInfo[boxID] = { id: boxID, options, controller };
-    store.openBoxID = boxID;
+    runInAction("ShowMessageBox_Base", () => store.openBoxID = boxID);
     return controller;
 }
 //export function ShowMessageBox(options: Partial<MessageBoxOptions>) {
@@ -43,17 +52,15 @@ let styles = {
     message: { padding: "10px 20px", whiteSpace: "pre" },
     buttonBar: { marginLeft: 20, marginBottom: 20, marginRight: 20 },
 };
-export class MessageBoxUI extends BaseComponent {
-    ComponentWillReceiveProps(props) {
-        // if open-box-id changing, clear dialog position/offset
-        if (props.openBoxID != this.props.openBoxID) {
-            this.SetState({ offset: { x: 0, y: 0 } });
-        }
-    }
+let MessageBoxUI = class MessageBoxUI extends BaseComponentPlus({}, { offset: { x: 0, y: 0 }, lastOpenBoxID: -1 }) {
     render() {
         if (store.openBoxID == null)
             return React.createElement("div", null);
         store.updateCallCount; // just access (used to trigger update, when val changed)
+        let { lastOpenBoxID } = this.state;
+        if (store.openBoxID != lastOpenBoxID) {
+            this.SetState({ offset: { x: 0, y: 0 }, lastOpenBoxID: store.openBoxID });
+        }
         let info = boxInfo[store.openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
         let { options: o, controller } = info;
         let { offset } = this.state;
@@ -64,7 +71,7 @@ export class MessageBoxUI extends BaseComponent {
             }, shouldCloseOnOverlayClick: o.cancelOnOverlayClick, onRequestClose: () => {
                 if (o.onCancel && o.onCancel() === false)
                     return;
-                store.openBoxID = null;
+                runInAction("MessageBoxUI.onClose", () => store.openBoxID = null);
             } },
             o.title != null &&
                 React.createElement("div", { style: E(styles.title, o.titleStyle), onMouseDown: e => {
@@ -103,6 +110,9 @@ export class MessageBoxUI extends BaseComponent {
                             } }),
                     o.extraButtons && o.extraButtons())));
     }
-}
-MessageBoxUI.defaultState = { offset: { x: 0, y: 0 } };
+};
+MessageBoxUI = __decorate([
+    observer
+], MessageBoxUI);
+export { MessageBoxUI };
 //# sourceMappingURL=VMessageBox.js.map

@@ -1,10 +1,12 @@
-import {BaseComponent, AddGlobalStyle} from "react-vextensions";
+import {BaseComponent, AddGlobalStyle, BaseComponentPlus} from "react-vextensions";
 import Modal from "react-modal";
 import {Button} from "react-vcomponents";
 import { voidy, E } from "./General";
 import {BoxInfo, MessageBoxOptions, BoxController} from "./Structures";
 import {store} from "./Store";
 //import React from "react";
+import {observer} from "mobx-react";
+import {runInAction} from "mobx";
 
 declare var require;
 var React = require("react");
@@ -18,7 +20,7 @@ export function ShowMessageBox_Base(options: MessageBoxOptions) {
 	// store options in extra storage, because ui-functions in it get ruined when put in Redux store // todo: now that using mobx, maybe move it back
 	boxInfo[boxID] = {id: boxID, options, controller};
 
-	store.openBoxID = boxID;
+	runInAction("ShowMessageBox_Base", ()=>store.openBoxID = boxID);
 
 	return controller;
 }
@@ -53,16 +55,8 @@ let styles = {
 	buttonBar: {marginLeft: 20, marginBottom: 20, marginRight: 20},
 };
 
-export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number, updateCallCount: number}>, {offset: {x: number, y: number}}> {
-	static defaultState = {offset: {x: 0, y: 0}};
-
-	ComponentWillReceiveProps(props) {
-		// if open-box-id changing, clear dialog position/offset
-		if (props.openBoxID != this.props.openBoxID) {
-			this.SetState({offset: {x: 0, y: 0}});
-		}
-	}
-
+@observer
+export class MessageBoxUI extends BaseComponentPlus({}, {offset: {x: 0, y: 0}, lastOpenBoxID: -1}) {
 	//lastInnerUIResult;
 	moveBar_drag_origOffset: {x: number, y: number};
 	moveBar_drag_mouseDownPos: {x: number, y: number};
@@ -71,6 +65,11 @@ export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number,
 	render() {
 		if (store.openBoxID == null) return <div/>;
 		store.updateCallCount; // just access (used to trigger update, when val changed)
+
+		let {lastOpenBoxID} = this.state;
+		if (store.openBoxID != lastOpenBoxID) {
+			this.SetState({offset: {x: 0, y: 0}, lastOpenBoxID: store.openBoxID});
+		}
 
 		let info = boxInfo[store.openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
 		let {options: o, controller} = info;
@@ -89,7 +88,7 @@ export class MessageBoxUI extends BaseComponent<{} & Partial<{openBoxID: number,
 					shouldCloseOnOverlayClick={o.cancelOnOverlayClick}
 					onRequestClose={()=> {
 						if (o.onCancel && o.onCancel() === false) return;
-						store.openBoxID = null;
+						runInAction("MessageBoxUI.onClose", ()=>store.openBoxID = null);
 					}}>
 				{o.title != null &&
 					<div style={E(styles.title, o.titleStyle)}

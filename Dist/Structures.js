@@ -1,4 +1,5 @@
 import { store } from "./Store";
+import { runInAction } from "mobx";
 export class MessageBoxOptions {
     constructor() {
         this.okButton = true;
@@ -13,10 +14,10 @@ export class BoxController {
         this.boxID = boxID;
     }
     UpdateUI() {
-        store.updateCallCount++;
+        runInAction("BoxController.UpdateUI", () => store.updateCallCount++);
     }
     Close() {
-        store.openBoxID = null;
+        runInAction("BoxController.Close", () => store.openBoxID = null);
     }
 }
 //# sourceMappingURL=Structures.js.map

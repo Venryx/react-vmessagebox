@@ -5,22 +5,17 @@ export declare function ShowMessageBox_Base(options: MessageBoxOptions): BoxCont
 export declare function ShowMessageBox(options: {
     [P in keyof MessageBoxOptions]?: MessageBoxOptions[P];
 }): BoxController;
-export declare class MessageBoxUI extends BaseComponent<{} & Partial<{
-    openBoxID: number;
-    updateCallCount: number;
-}>, {
+declare const MessageBoxUI_base: (new (..._: any[]) => BaseComponent<{}, {
     offset: {
         x: number;
         y: number;
     };
-}> {
-    static defaultState: {
-        offset: {
-            x: number;
-            y: number;
-        };
-    };
-    ComponentWillReceiveProps(props: any): void;
+    lastOpenBoxID: number;
+}, unknown>) & {
+    renderCount: number;
+    lastRenderTime: number;
+};
+export declare class MessageBoxUI extends MessageBoxUI_base {
     moveBar_drag_origOffset: {
         x: number;
         y: number;
@@ -33,3 +28,4 @@ export declare class MessageBoxUI extends BaseComponent<{} & Partial<{
     moveBar_drag_mouseUpListener: EventListener;
     render(): JSX.Element;
 }
+export {};
