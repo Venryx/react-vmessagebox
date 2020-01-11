@@ -1,5 +1,8 @@
+import { MessageBoxState } from "./Store/MessageBoxState";
 export declare class MessageBoxStore {
-    openBoxID: number;
-    updateCallCount: number;
+    lastBoxID: number;
+    openBoxStates: {
+        [key: number]: MessageBoxState;
+    };
 }
 export declare const store: MessageBoxStore;

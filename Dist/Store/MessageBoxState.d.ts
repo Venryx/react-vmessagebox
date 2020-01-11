@@ -1,6 +1,12 @@
 /// <reference types="react" />
-import { voidy } from "./General";
 import { ButtonProps } from "react-vcomponents";
+import { voidy } from "../General";
+export declare class MessageBoxState {
+    constructor(initialData: Partial<MessageBoxState>);
+    updateCallCount: number;
+    options: MessageBoxOptions;
+    controller: BoxController;
+}
 export declare class MessageBoxOptions {
     overlayStyle?: any;
     containerStyle?: any;

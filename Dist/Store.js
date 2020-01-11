@@ -7,15 +7,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { observable } from "mobx";
 export class MessageBoxStore {
     constructor() {
-        this.updateCallCount = 0;
+        this.lastBoxID = 0;
+        this.openBoxStates = {};
     }
 }
 __decorate([
     observable
-], MessageBoxStore.prototype, "openBoxID", void 0);
-__decorate([
-    observable
-], MessageBoxStore.prototype, "updateCallCount", void 0);
+], MessageBoxStore.prototype, "openBoxStates", void 0);
 export const store = new MessageBoxStore();
 /*export function ACTSetOpenBoxID(boxID: number) {
     runInAction("ACTSetOpenBoxID", ()=>{

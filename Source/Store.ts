@@ -1,8 +1,9 @@
 import {observable, runInAction} from "mobx";
+import {MessageBoxState} from "./Store/MessageBoxState";
 
 export class MessageBoxStore {
-	@observable openBoxID: number;
-	@observable updateCallCount = 0;
+	lastBoxID = 0;
+	@observable openBoxStates = {} as {[key: number]: MessageBoxState};
 }
 
 export const store = new MessageBoxStore();
