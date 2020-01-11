@@ -59,7 +59,8 @@ let MessageBoxUI = class MessageBoxUI extends BaseComponentPlus({}, { offset: { 
         store.updateCallCount; // just access (used to trigger update, when val changed)
         let { lastOpenBoxID } = this.state;
         if (store.openBoxID != lastOpenBoxID) {
-            this.SetState({ offset: { x: 0, y: 0 }, lastOpenBoxID: store.openBoxID });
+            //this.SetState({offset: {x: 0, y: 0}, lastOpenBoxID: store.openBoxID});
+            Object.assign(this.state, { offset: { x: 0, y: 0 }, lastOpenBoxID: store.openBoxID });
         }
         let info = boxInfo[store.openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
         let { options: o, controller } = info;
@@ -97,17 +98,17 @@ let MessageBoxUI = class MessageBoxUI extends BaseComponentPlus({}, { offset: { 
             (o.okButton || o.cancelButton || o.extraButtons) &&
                 React.createElement("div", { style: E(styles.buttonBar, o.buttonBarStyle) },
                     o.okButton &&
-                        React.createElement(Button, { text: "OK", enabled: o.okButtonClickable, onClick: () => {
+                        React.createElement(Button, Object.assign({ text: "OK" }, o.okButtonProps, { onClick: () => {
                                 if (o.onOK && o.onOK() === false)
                                     return;
                                 controller.Close();
-                            } }),
+                            } })),
                     o.cancelButton &&
-                        React.createElement(Button, { text: "Cancel", ml: o.okButton ? 10 : 0, onClick: () => {
+                        React.createElement(Button, Object.assign({ text: "Cancel", ml: o.okButton ? 10 : 0 }, o.cancelButtonProps, { onClick: () => {
                                 if (o.onCancel && o.onCancel() === false)
                                     return;
                                 controller.Close();
-                            } }),
+                            } })),
                     o.extraButtons && o.extraButtons())));
     }
 };

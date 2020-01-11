@@ -1,4 +1,4 @@
-import {observable} from "mobx";
+import {observable, runInAction} from "mobx";
 
 export class MessageBoxStore {
 	@observable openBoxID: number;
@@ -6,3 +6,10 @@ export class MessageBoxStore {
 }
 
 export const store = new MessageBoxStore();
+
+/*export function ACTSetOpenBoxID(boxID: number) {
+	runInAction("ACTSetOpenBoxID", ()=>{
+		store.openBoxID = boxID;
+		store.offset = {x: 0, y: 0};
+	});
+}*/

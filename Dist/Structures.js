@@ -3,7 +3,6 @@ import { runInAction } from "mobx";
 export class MessageBoxOptions {
     constructor() {
         this.okButton = true;
-        this.okButtonClickable = true;
         this.cancelButton = false;
         this.cancelOnOverlayClick = false;
     }

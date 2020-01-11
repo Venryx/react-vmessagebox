@@ -2,6 +2,7 @@ import {voidy} from "./General";
 
 import {store} from "./Store";
 import {runInAction} from "mobx";
+import {ButtonProps} from "react-vcomponents";
 
 export class MessageBoxOptions {
 	overlayStyle?: any;
@@ -14,10 +15,11 @@ export class MessageBoxOptions {
 	messageStyle?: any;
 
 	okButton = true;
-	okButtonClickable = true;
+	okButtonProps?: ButtonProps;
 	onOK?: ()=>boolean | voidy;
 
 	cancelButton = false;
+	cancelButtonProps?: ButtonProps;
 	cancelOnOverlayClick = false;
 	onCancel?: ()=>boolean | voidy;
 

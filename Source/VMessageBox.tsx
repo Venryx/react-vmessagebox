@@ -57,6 +57,8 @@ let styles = {
 
 @observer
 export class MessageBoxUI extends BaseComponentPlus({}, {offset: {x: 0, y: 0}, lastOpenBoxID: -1}) {
+	
+	
 	//lastInnerUIResult;
 	moveBar_drag_origOffset: {x: number, y: number};
 	moveBar_drag_mouseDownPos: {x: number, y: number};
@@ -68,7 +70,8 @@ export class MessageBoxUI extends BaseComponentPlus({}, {offset: {x: 0, y: 0}, l
 
 		let {lastOpenBoxID} = this.state;
 		if (store.openBoxID != lastOpenBoxID) {
-			this.SetState({offset: {x: 0, y: 0}, lastOpenBoxID: store.openBoxID});
+			//this.SetState({offset: {x: 0, y: 0}, lastOpenBoxID: store.openBoxID});
+			Object.assign(this.state, {offset: {x: 0, y: 0}, lastOpenBoxID: store.openBoxID});
 		}
 
 		let info = boxInfo[store.openBoxID]; // get orig-options rather than options-in-store, because in-store version gets messed up
@@ -118,13 +121,13 @@ export class MessageBoxUI extends BaseComponentPlus({}, {offset: {x: 0, y: 0}, l
 				{(o.okButton || o.cancelButton || o.extraButtons) &&
 					<div style={E(styles.buttonBar, o.buttonBarStyle)}>
 						{o.okButton &&
-							<Button text="OK" enabled={o.okButtonClickable}
+							<Button text="OK" {...o.okButtonProps}
 								onClick={()=> {
 									if (o.onOK && o.onOK() === false) return;
 									controller.Close();
 								}}/>}
 						{o.cancelButton &&
-							<Button text="Cancel" ml={o.okButton ? 10 : 0} onClick={()=> {
+							<Button text="Cancel" ml={o.okButton ? 10 : 0} {...o.cancelButtonProps} onClick={()=> {
 								if (o.onCancel && o.onCancel() === false) return;
 								controller.Close();
 							}}/>}
