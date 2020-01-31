@@ -17,7 +17,8 @@ let styles = {
         display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,.5)",
     },
     container: {
-        overflow: "auto",
+        //overflow: "auto",
+        overflow: "visible",
         //top: "40px", left: "40px", right: "40px", bottom: "40px",
         //left: "50%", right: "initial", top: "50%", bottom: "initial", transform: "translate(-50%, -50%)",
         position: "relative", left: "initial", right: "initial", top: "initial", bottom: "initial",

@@ -38,13 +38,13 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "mobx-react": "^6.1.4",
     "react-modal": "^3.11.1",
-    "react-vcomponents": "^1.0.3",
-    "react-vextensions": "^1.0.1"
+    "react-vcomponents": "^1.0.9",
+    "react-vextensions": "^1.0.4"
   }
 }
