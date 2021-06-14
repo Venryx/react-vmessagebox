@@ -1,8 +1,7 @@
+import { runInAction } from "mobx";
 import { E } from "./General.js";
 import { store } from "./Store.js";
-import { runInAction } from "mobx";
-import { MessageBoxState, MessageBoxOptions, BoxController } from "./Store/MessageBoxState.js";
-var React = require("react");
+import { BoxController, MessageBoxOptions, MessageBoxState } from "./Store/MessageBoxState.js";
 export function ShowMessageBox_Base(options) {
     let boxID = store.lastBoxID + 1;
     let controller = new BoxController(options, boxID);
