@@ -1,8 +1,8 @@
 import {observer} from "mobx-react";
 import React from "react";
 import {AddGlobalStyle, BaseComponentPlus} from "react-vextensions";
-import {MessageBoxUI} from "./MessageBoxUI";
-import {store} from "./Store";
+import {MessageBoxUI} from "./MessageBoxUI.js";
+import {store} from "./Store.js";
 
 AddGlobalStyle(`
 .ReactModal__Overlay { z-index: 1; }

@@ -1,3 +1,3 @@
-export * from "./VMessageBox";
-export * from "./MessageBoxLayer";
-export * from "./Store/MessageBoxState";
+export * from "./VMessageBox.js";
+export * from "./MessageBoxLayer.js";
+export * from "./Store/MessageBoxState.js";

@@ -1,7 +1,7 @@
 import {observable, runInAction} from "mobx";
 import {ButtonProps} from "react-vcomponents";
-import {voidy} from "../General";
-import {store} from "../Store";
+import {voidy} from "../General.js";
+import {store} from "../Store.js";
 
 export class MessageBoxState {
 	constructor(initialData: Partial<MessageBoxState>) {

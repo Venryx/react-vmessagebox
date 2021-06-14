@@ -4,8 +4,8 @@ import {observer} from "mobx-react";
 import Modal from "react-modal";
 import {Button} from "react-vcomponents";
 import {BaseComponentPlus} from "react-vextensions";
-import {E} from "./General";
-import {store} from "./Store";
+import {E} from "./General.js";
+import {store} from "./Store.js";
 
 let styles = {
 	overlay: {

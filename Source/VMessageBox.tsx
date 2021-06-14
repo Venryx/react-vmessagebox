@@ -1,12 +1,12 @@
 import {BaseComponent, AddGlobalStyle, BaseComponentPlus} from "react-vextensions";
 import Modal from "react-modal";
 import {Button} from "react-vcomponents";
-import { voidy, E } from "./General";
-import {store} from "./Store";
+import { voidy, E } from "./General.js";
+import {store} from "./Store.js";
 //import React from "react";
 import {observer} from "mobx-react";
 import {runInAction} from "mobx";
-import {MessageBoxState, MessageBoxOptions, BoxController} from "./Store/MessageBoxState";
+import {MessageBoxState, MessageBoxOptions, BoxController} from "./Store/MessageBoxState.js";
 
 declare var require;
 var React = require("react");

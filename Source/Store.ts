@@ -1,5 +1,5 @@
 import {observable, runInAction} from "mobx";
-import {MessageBoxState} from "./Store/MessageBoxState";
+import {MessageBoxState} from "./Store/MessageBoxState.js";
 
 export class MessageBoxStore {
 	lastBoxID = 0;
