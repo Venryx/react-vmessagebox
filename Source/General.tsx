@@ -11,8 +11,8 @@ export function E<E1,E2,E3,E4,E5,E6,E7,E8>(e1?:E1,e2?:E2,e3?:E3,e4?:E4,e5?:E5,e6
 export function ToJSON(obj) { return JSON.stringify(obj); }
 export function FromJSON(json) { return JSON.parse(json); }
 
-export function RemoveDuplicates(items: any) {
-	var result = [];
+export function RemoveDuplicates<T>(items: T[]) {
+	var result = [] as T[];
 	for (let item of items) {
 		if (result.indexOf(item) == -1) {
 			result.push(item);

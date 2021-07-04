@@ -14,13 +14,13 @@ export declare class MessageBoxUI extends MessageBoxUI_base {
     moveBar_drag_origOffset: {
         x: number;
         y: number;
-    };
+    } | n;
     moveBar_drag_mouseDownPos: {
         x: number;
         y: number;
-    };
-    moveBar_drag_mouseMoveListener: EventListener;
-    moveBar_drag_mouseUpListener: EventListener;
+    } | n;
+    moveBar_drag_mouseMoveListener: EventListener | n;
+    moveBar_drag_mouseUpListener: EventListener | n;
     render(): JSX.Element;
 }
 export {};

@@ -31,10 +31,10 @@ let styles = {
 @observer
 export class MessageBoxUI extends BaseComponentPlus({} as {id: number}, {offset: {x: 0, y: 0}}) {
 	//lastInnerUIResult;
-	moveBar_drag_origOffset: {x: number, y: number};
-	moveBar_drag_mouseDownPos: {x: number, y: number};
-	moveBar_drag_mouseMoveListener: EventListener;
-	moveBar_drag_mouseUpListener: EventListener;
+	moveBar_drag_origOffset: {x: number, y: number}|n;
+	moveBar_drag_mouseDownPos: {x: number, y: number}|n;
+	moveBar_drag_mouseMoveListener: EventListener|n;
+	moveBar_drag_mouseUpListener: EventListener|n;
 	render() {
 		let {id} = this.props;
 		let boxState = store.openBoxStates[id];
@@ -68,14 +68,14 @@ export class MessageBoxUI extends BaseComponentPlus({} as {id: number}, {offset:
 							document.addEventListener("mousemove", this.moveBar_drag_mouseMoveListener = (e: MouseEvent)=> {
 								if (this.moveBar_drag_mouseDownPos == null) return;
 								let diffFromDragPoint = {x: e.pageX - this.moveBar_drag_mouseDownPos.x, y: e.pageY - this.moveBar_drag_mouseDownPos.y};
-								this.SetState({offset: {x: this.moveBar_drag_origOffset.x + diffFromDragPoint.x, y: this.moveBar_drag_origOffset.y + diffFromDragPoint.y}});
+								this.SetState({offset: {x: this.moveBar_drag_origOffset!.x + diffFromDragPoint.x, y: this.moveBar_drag_origOffset!.y + diffFromDragPoint.y}});
 							});
 							document.addEventListener("mouseup", this.moveBar_drag_mouseUpListener = (e: MouseEvent)=> {
 								this.moveBar_drag_origOffset = null;
 								this.moveBar_drag_mouseDownPos = null;
-								document.removeEventListener("mousemove", this.moveBar_drag_mouseMoveListener);
+								document.removeEventListener("mousemove", this.moveBar_drag_mouseMoveListener!);
 								this.moveBar_drag_mouseMoveListener = null;
-								document.removeEventListener("mouseup", this.moveBar_drag_mouseUpListener);
+								document.removeEventListener("mouseup", this.moveBar_drag_mouseUpListener!);
 								this.moveBar_drag_mouseUpListener = null;
 							});
 						}}>
