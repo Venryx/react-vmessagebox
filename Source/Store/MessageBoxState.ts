@@ -13,24 +13,25 @@ export class MessageBoxState {
 	controller: BoxController;
 }
 
+type n = null;
 export class MessageBoxOptions {
-	overlayStyle?: any;
-	containerStyle?: any;
+	overlayStyle?: any|n;
+	containerStyle?: any|n;
 	
-	title?: string | (()=>JSX.Element);
+	title?: string | (()=>JSX.Element)|n;
 	titleStyle?: any;
 
-	message?: string | (()=>JSX.Element);
+	message?: string | (()=>JSX.Element)|n;
 	messageStyle?: any;
 
 	okButton = true;
 	okButtonProps?: ButtonProps;
-	onOK?: ()=>boolean | voidy;
+	onOK?: (()=>boolean | voidy)|n;
 
 	cancelButton = false;
-	cancelButtonProps?: ButtonProps;
+	cancelButtonProps?: ButtonProps|n;
 	cancelOnOverlayClick = false;
-	onCancel?: ()=>boolean | voidy;
+	onCancel?: (()=>boolean | voidy)|n;
 
 	extraButtons: (()=>JSX.Element);
 	buttonBarStyle?: any;

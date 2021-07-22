@@ -5,7 +5,7 @@ Message-box solution built using ReactJS and MobX.
 ### Installation
 
 ```
-npm install react-vmessagebox --save-exact
+npm install react-vmessagebox react-vextensions react-vcomponents --save-exact
 ```
 
 The `--save-exact` flag is recommended, since this package uses [Explicit Versioning](https://medium.com/sapioit/why-having-3-numbers-in-the-version-name-is-bad-92fc1f6bc73c) (`Release.Breaking.FeatureOrFix`) rather than SemVer (`Breaking.Feature.Fix`).

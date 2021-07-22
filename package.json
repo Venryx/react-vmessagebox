@@ -2,15 +2,11 @@
   "name": "react-vmessagebox",
   "description": "Message-box solution built using ReactJS and MobX.",
   "version": "1.0.6",
+  "author": "Venryx (https://venryx.com)",
   "main": "Dist/index.js",
-  "type": "module",
   "typings": "Dist/index.d.ts",
+  "type": "module",
   "license": "MIT",
-  "author": {
-    "name": "Venryx",
-    "email": "venryx@gmail.com",
-    "url": "https://venryx.com"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Venryx/react-vmessagebox.git"
@@ -25,7 +21,9 @@
   "peerDependencies": {
     "mobx": "^5.0.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-vextensions": "^1.0.10",
+    "react-vcomponents": "^1.0.31"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -38,13 +36,13 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "react-vextensions": "^1.0.10",
+    "react-vcomponents": "^1.0.31"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "mobx-react": "^6.1.4",
-    "react-modal": "^3.11.1",
-    "react-vcomponents": "^1.0.9",
-    "react-vextensions": "^1.0.4"
+    "react-modal": "^3.11.1"
   }
 }

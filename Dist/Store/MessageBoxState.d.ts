@@ -7,20 +7,21 @@ export declare class MessageBoxState {
     options: MessageBoxOptions;
     controller: BoxController;
 }
+declare type n = null;
 export declare class MessageBoxOptions {
-    overlayStyle?: any;
-    containerStyle?: any;
-    title?: string | (() => JSX.Element);
+    overlayStyle?: any | n;
+    containerStyle?: any | n;
+    title?: string | (() => JSX.Element) | n;
     titleStyle?: any;
-    message?: string | (() => JSX.Element);
+    message?: string | (() => JSX.Element) | n;
     messageStyle?: any;
     okButton: boolean;
     okButtonProps?: ButtonProps;
-    onOK?: () => boolean | voidy;
+    onOK?: (() => boolean | voidy) | n;
     cancelButton: boolean;
-    cancelButtonProps?: ButtonProps;
+    cancelButtonProps?: ButtonProps | n;
     cancelOnOverlayClick: boolean;
-    onCancel?: () => boolean | voidy;
+    onCancel?: (() => boolean | voidy) | n;
     extraButtons: (() => JSX.Element);
     buttonBarStyle?: any;
 }
@@ -31,3 +32,4 @@ export declare class BoxController {
     UpdateUI(): void;
     Close(): void;
 }
+export {};
