@@ -88,7 +88,7 @@ export class MessageBoxUI extends BaseComponentPlus({} as {id: number}, {offset:
 				{(o.okButton || o.cancelButton || o.extraButtons) &&
 					<div style={E(styles.buttonBar, o.buttonBarStyle)}>
 						{o.okButton &&
-							<Button text="OK" {...o.okButtonProps}
+							<Button text="OK" {...o.okButtonProps as any}
 								onClick={()=> {
 									if (o.onOK && o.onOK() === false) return;
 									controller.Close();
