@@ -6,9 +6,12 @@ import {BoxController, MessageBoxOptions, MessageBoxState} from "./Store/Message
 export function ShowMessageBox_Base(options: MessageBoxOptions) {
 	let boxID = store.lastBoxID + 1;
 	let controller = new BoxController(options, boxID);
-	runInAction("ShowMessageBox_Base", ()=> {
-		store.openBoxStates[boxID] = new MessageBoxState({options, controller});
-		store.lastBoxID = boxID;
+	// wait a tick before adding message-box entry to store; this allows caller to assign to a "boxController" variable prior to message-box-ui rendering (which may try to access that "boxController" var)
+	setTimeout(()=>{
+		runInAction("ShowMessageBox_Base", ()=> {
+			store.openBoxStates[boxID] = new MessageBoxState({options, controller});
+			store.lastBoxID = boxID;
+		});
 	});
 	return controller;
 }
