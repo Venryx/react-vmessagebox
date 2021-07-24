@@ -1,3 +1,5 @@
+import {runInAction} from "mobx";
+
 export type voidy = void | Promise<void>;
 
 export function E<E1,E2,E3,E4,E5,E6,E7,E8>(e1?:E1,e2?:E2,e3?:E3,e4?:E4,e5?:E5,e6?:E6,e7?:E7,e8?:E8):E1&E2&E3&E4&E5&E6&E7&E8 {
@@ -37,4 +39,9 @@ export function AssertWarn(condition, messageOrMessageFunc?: string | Function) 
 	var message = messageOrMessageFunc instanceof Function ? messageOrMessageFunc() : messageOrMessageFunc;
 
 	console.warn(`Assert-warn failed) ${message}\n\nStackTrace)`); // ${GetStackTraceStr()}`);
+}
+
+export function RunInAction(name: string, action: ()=>any) {
+	Object.defineProperty(action, "name", {value: name});
+	return runInAction(action);
 }

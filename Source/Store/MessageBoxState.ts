@@ -1,10 +1,11 @@
-import {observable, runInAction} from "mobx";
+import {observable, runInAction, makeObservable} from "mobx";
 import {ButtonProps} from "react-vcomponents";
-import {voidy} from "../General.js";
+import {voidy, RunInAction} from "../General.js";
 import {store} from "../Store.js";
 
 export class MessageBoxState {
 	constructor(initialData: Partial<MessageBoxState>) {
+		makeObservable(this);
 		Object.assign(this, initialData);
 	}
 	//id: number;
@@ -46,9 +47,9 @@ export class BoxController {
 	boxID: number;
 
 	UpdateUI() { //updateInnerUI = true) {
-		runInAction("BoxController.UpdateUI", ()=>store.openBoxStates[this.boxID].updateCallCount++);
+		RunInAction("BoxController.UpdateUI", ()=>store.openBoxStates[this.boxID].updateCallCount++);
 	}
 	Close() {
-		runInAction("BoxController.Close", ()=>delete store.openBoxStates[this.boxID]);
+		RunInAction("BoxController.Close", ()=>delete store.openBoxStates[this.boxID]);
 	}
 }

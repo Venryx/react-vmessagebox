@@ -57,7 +57,7 @@ export class MessageBoxUI extends BaseComponentPlus({} as {id: number}, {offset:
 					shouldCloseOnOverlayClick={o.cancelOnOverlayClick}
 					onRequestClose={()=> {
 						if (o.onCancel && o.onCancel() === false) return;
-						//runInAction("MessageBoxUI.onClose", ()=>store.openBoxID = null);
+						//RunInAction("MessageBoxUI.onClose", ()=>store.openBoxID = null);
 						controller.Close();
 					}}>
 				{o.title != null &&

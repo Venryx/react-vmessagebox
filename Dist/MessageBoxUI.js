@@ -32,6 +32,34 @@ let styles = {
     buttonBar: { marginLeft: 20, marginBottom: 20, marginRight: 20 },
 };
 let MessageBoxUI = class MessageBoxUI extends BaseComponentPlus({}, { offset: { x: 0, y: 0 } }) {
+    constructor() {
+        super(...arguments);
+        //lastInnerUIResult;
+        Object.defineProperty(this, "moveBar_drag_origOffset", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "moveBar_drag_mouseDownPos", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "moveBar_drag_mouseMoveListener", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "moveBar_drag_mouseUpListener", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+    }
     render() {
         let { id } = this.props;
         let boxState = store.openBoxStates[id];
@@ -46,7 +74,7 @@ let MessageBoxUI = class MessageBoxUI extends BaseComponentPlus({}, { offset: { 
             }, shouldCloseOnOverlayClick: o.cancelOnOverlayClick, onRequestClose: () => {
                 if (o.onCancel && o.onCancel() === false)
                     return;
-                //runInAction("MessageBoxUI.onClose", ()=>store.openBoxID = null);
+                //RunInAction("MessageBoxUI.onClose", ()=>store.openBoxID = null);
                 controller.Close();
             } },
             o.title != null &&

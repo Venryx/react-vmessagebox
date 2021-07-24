@@ -1,3 +1,4 @@
+import { runInAction } from "mobx";
 export function E(e1, e2, e3, e4, e5, e6, e7, e8) {
     var result = {};
     for (var extend of arguments)
@@ -30,5 +31,9 @@ export function AssertWarn(condition, messageOrMessageFunc) {
         return;
     var message = messageOrMessageFunc instanceof Function ? messageOrMessageFunc() : messageOrMessageFunc;
     console.warn(`Assert-warn failed) ${message}\n\nStackTrace)`); // ${GetStackTraceStr()}`);
+}
+export function RunInAction(name, action) {
+    Object.defineProperty(action, "name", { value: name });
+    return runInAction(action);
 }
 //# sourceMappingURL=General.js.map

@@ -4,11 +4,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { observable } from "mobx";
+import { observable, makeObservable } from "mobx";
 export class MessageBoxStore {
     constructor() {
-        this.lastBoxID = 0;
-        this.openBoxStates = {};
+        Object.defineProperty(this, "lastBoxID", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0
+        });
+        Object.defineProperty(this, "openBoxStates", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: {}
+        });
+        makeObservable(this);
     }
 }
 __decorate([
@@ -16,7 +27,7 @@ __decorate([
 ], MessageBoxStore.prototype, "openBoxStates", void 0);
 export const store = new MessageBoxStore();
 /*export function ACTSetOpenBoxID(boxID: number) {
-    runInAction("ACTSetOpenBoxID", ()=>{
+    RunInAction("ACTSetOpenBoxID", ()=>{
         store.openBoxID = boxID;
         store.offset = {x: 0, y: 0};
     });

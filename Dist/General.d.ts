@@ -5,3 +5,4 @@ export declare function FromJSON(json: any): any;
 export declare function RemoveDuplicates<T>(items: T[]): T[];
 export declare function Assert(condition: any, messageOrMessageFunc?: string | Function): void;
 export declare function AssertWarn(condition: any, messageOrMessageFunc?: string | Function): void;
+export declare function RunInAction(name: string, action: () => any): any;
