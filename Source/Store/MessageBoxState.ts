@@ -1,4 +1,5 @@
 import {observable, runInAction, makeObservable} from "mobx";
+import {FunctionComponent} from "react";
 import {ButtonProps} from "react-vcomponents";
 import {voidy, RunInAction} from "../General.js";
 import {store} from "../Store.js";
@@ -19,10 +20,10 @@ export class MessageBoxOptions {
 	overlayStyle?: any|n;
 	containerStyle?: any|n;
 	
-	title?: string | (()=>JSX.Element)|n;
+	title?: string | FunctionComponent |n;
 	titleStyle?: any;
 
-	message?: string | (()=>JSX.Element)|n;
+	message?: string | FunctionComponent |n;
 	messageStyle?: any;
 
 	okButton = true;
@@ -34,7 +35,7 @@ export class MessageBoxOptions {
 	cancelOnOverlayClick = false;
 	onCancel?: (()=>boolean | voidy)|n;
 
-	extraButtons: (()=>JSX.Element);
+	extraButtons?: FunctionComponent;
 	buttonBarStyle?: any;
 }
 

@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import { FunctionComponent } from "react";
 import { ButtonProps } from "react-vcomponents";
 import { voidy } from "../General.js";
 export declare class MessageBoxState {
@@ -11,9 +11,9 @@ declare type n = null;
 export declare class MessageBoxOptions {
     overlayStyle?: any | n;
     containerStyle?: any | n;
-    title?: string | (() => JSX.Element) | n;
+    title?: string | FunctionComponent | n;
     titleStyle?: any;
-    message?: string | (() => JSX.Element) | n;
+    message?: string | FunctionComponent | n;
     messageStyle?: any;
     okButton: boolean;
     okButtonProps?: ButtonProps;
@@ -22,7 +22,7 @@ export declare class MessageBoxOptions {
     cancelButtonProps?: ButtonProps | n;
     cancelOnOverlayClick: boolean;
     onCancel?: (() => boolean | voidy) | n;
-    extraButtons: (() => JSX.Element);
+    extraButtons?: FunctionComponent;
     buttonBarStyle?: any;
 }
 export declare class BoxController {

@@ -1,9 +1,7 @@
-import React from "react";
-import {runInAction} from "mobx";
 import {observer} from "mobx-react";
+import React, {useMemo, useState} from "react";
 import Modal from "react-modal";
 import {Button} from "react-vcomponents";
-import {BaseComponentPlus} from "react-vextensions";
 import {E} from "./General.js";
 import {store} from "./Store.js";
 
@@ -28,79 +26,107 @@ let styles = {
 	buttonBar: {marginLeft: 20, marginBottom: 20, marginRight: 20},
 };
 
-@observer
-export class MessageBoxUI extends BaseComponentPlus({} as {id: number}, {offset: {x: 0, y: 0}}) {
+export const MessageBoxUI = observer((props: {id: number})=>{
+	let {id} = props;
+	let boxState = store.openBoxStates[id];
+	//if (boxState == null) return null;
+	let updateCallCount = boxState.updateCallCount; // just access (used to trigger update, when val changed)
+
+	let {options: o, controller} = boxState;
+	let [offset, setOffset] = useState({x: 0, y: 0});
+
+	// cache these, until the caller manually calls boxController.Update()
+	/*let TitleAsReactRenderFunc = useMemo(()=>{
+		return typeof o.title == "string" ? ()=><>{o.title}</> :
+			typeof o.title == "function" ? o.title :
+			()=><></>;
+	}, [updateCallCount]);
+	let MessageAsReactRenderFunc = useMemo(()=>{
+		return typeof o.message == "string" ? ()=><>{o.message}</> :
+			typeof o.message == "function" ? o.message :
+			()=><></>;
+	}, [updateCallCount]);*/
+	// cache these, until the caller manually calls boxController.Update()
+	let TitleAsReactFunctionComp = useMemo(()=>{
+		return typeof o.title == "string" ? ()=><>{o.title}</> :
+			(typeof o.title == "function" || typeof o.title?.["type"] == "function") ? o.title :
+			()=><></>
+	}, [o.message]);
+	let MessageAsReactFunctionComp = useMemo(()=>{
+		return typeof o.message == "string" ? ()=><>{o.message}</> :
+			(typeof o.message == "function" || typeof o.message?.["type"] == "function") ? o.message :
+			()=><></>;
+	}, [o.message]);
+
 	//lastInnerUIResult;
-	moveBar_drag_origOffset: {x: number, y: number}|n;
-	moveBar_drag_mouseDownPos: {x: number, y: number}|n;
-	moveBar_drag_mouseMoveListener: EventListener|n;
-	moveBar_drag_mouseUpListener: EventListener|n;
-	render() {
-		let {id} = this.props;
-		let boxState = store.openBoxStates[id];
-		//if (boxState == null) return null;
-		boxState.updateCallCount; // just access (used to trigger update, when val changed)
+	let data = useMemo(()=>({
+		//lastInnerUIResult: null;
+		moveBar_drag_origOffset: null as {x: number, y: number}|n,
+		moveBar_drag_mouseDownPos: null as {x: number, y: number}|n,
+		moveBar_drag_mouseMoveListener: null as EventListener|n,
+		moveBar_drag_mouseUpListener: null as EventListener|n,
+	}), []);
 
-		let {options: o, controller} = boxState;
-		let {offset} = this.state;
-
-		return (
-			<Modal isOpen={true} contentLabel={""} ariaHideApp={false}
-					style={{
-						overlay: E(styles.overlay, o.overlayStyle),
-						content: E(
-							styles.container,
-							{marginLeft: offset.x * 2, marginTop: offset.y * 2}, // apply offset*2, because container's flex-based centering considers margins part of the size
-							o.containerStyle
-						),
-					}}
-					shouldCloseOnOverlayClick={o.cancelOnOverlayClick}
-					onRequestClose={()=> {
-						if (o.onCancel && o.onCancel() === false) return;
-						//RunInAction("MessageBoxUI.onClose", ()=>store.openBoxID = null);
-						controller.Close();
+	return (
+		<Modal isOpen={true} contentLabel={""} ariaHideApp={false}
+				style={{
+					overlay: E(styles.overlay, o.overlayStyle),
+					content: E(
+						styles.container,
+						{marginLeft: offset.x * 2, marginTop: offset.y * 2}, // apply offset*2, because container's flex-based centering considers margins part of the size
+						o.containerStyle
+					),
+				}}
+				shouldCloseOnOverlayClick={o.cancelOnOverlayClick}
+				onRequestClose={()=> {
+					if (o.onCancel && o.onCancel() === false) return;
+					//RunInAction("MessageBoxUI.onClose", ()=>store.openBoxID = null);
+					controller.Close();
+				}}>
+			{o.title != null &&
+				<div style={E(styles.title, o.titleStyle)}
+					onMouseDown={e=> {
+						data.moveBar_drag_origOffset = offset;
+						data.moveBar_drag_mouseDownPos = {x: e.pageX, y: e.pageY};
+						document.addEventListener("mousemove", data.moveBar_drag_mouseMoveListener = (e: MouseEvent)=> {
+							if (data.moveBar_drag_mouseDownPos == null) return;
+							let diffFromDragPoint = {x: e.pageX - data.moveBar_drag_mouseDownPos.x, y: e.pageY - data.moveBar_drag_mouseDownPos.y};
+							setOffset({
+								x: data.moveBar_drag_origOffset!.x + diffFromDragPoint.x,
+								y: data.moveBar_drag_origOffset!.y + diffFromDragPoint.y,
+							});
+						});
+						document.addEventListener("mouseup", data.moveBar_drag_mouseUpListener = (e: MouseEvent)=> {
+							data.moveBar_drag_origOffset = null;
+							data.moveBar_drag_mouseDownPos = null;
+							document.removeEventListener("mousemove", data.moveBar_drag_mouseMoveListener!);
+							data.moveBar_drag_mouseMoveListener = null;
+							document.removeEventListener("mouseup", data.moveBar_drag_mouseUpListener!);
+							data.moveBar_drag_mouseUpListener = null;
+						});
 					}}>
-				{o.title != null &&
-					<div style={E(styles.title, o.titleStyle)}
-						onMouseDown={e=> {
-							this.moveBar_drag_origOffset = offset;
-							this.moveBar_drag_mouseDownPos = {x: e.pageX, y: e.pageY};
-							document.addEventListener("mousemove", this.moveBar_drag_mouseMoveListener = (e: MouseEvent)=> {
-								if (this.moveBar_drag_mouseDownPos == null) return;
-								let diffFromDragPoint = {x: e.pageX - this.moveBar_drag_mouseDownPos.x, y: e.pageY - this.moveBar_drag_mouseDownPos.y};
-								this.SetState({offset: {x: this.moveBar_drag_origOffset!.x + diffFromDragPoint.x, y: this.moveBar_drag_origOffset!.y + diffFromDragPoint.y}});
-							});
-							document.addEventListener("mouseup", this.moveBar_drag_mouseUpListener = (e: MouseEvent)=> {
-								this.moveBar_drag_origOffset = null;
-								this.moveBar_drag_mouseDownPos = null;
-								document.removeEventListener("mousemove", this.moveBar_drag_mouseMoveListener!);
-								this.moveBar_drag_mouseMoveListener = null;
-								document.removeEventListener("mouseup", this.moveBar_drag_mouseUpListener!);
-								this.moveBar_drag_mouseUpListener = null;
-							});
-						}}>
-						{typeof o.title == "string" ? o.title : o.title()}
-					</div>}
-				{o.message != null &&
-					<div style={E(styles.message, o.messageStyle)}>
-						{typeof o.message == "string" ? o.message : o.message()}
-					</div>}
-				{(o.okButton || o.cancelButton || o.extraButtons) &&
-					<div style={E(styles.buttonBar, o.buttonBarStyle)}>
-						{o.okButton &&
-							<Button text="OK" {...o.okButtonProps as any}
-								onClick={()=> {
-									if (o.onOK && o.onOK() === false) return;
-									controller.Close();
-								}}/>}
-						{o.cancelButton &&
-							<Button text="Cancel" ml={o.okButton ? 10 : 0} {...o.cancelButtonProps} onClick={()=> {
-								if (o.onCancel && o.onCancel() === false) return;
+					<TitleAsReactFunctionComp {...{updateCallCount} as any}/>
+				</div>}
+			{o.message != null &&
+				<div style={E(styles.message, o.messageStyle)}>
+					<MessageAsReactFunctionComp {...{updateCallCount} as any}/>
+				</div>}
+			{(o.okButton || o.cancelButton || o.extraButtons) &&
+				<div style={E(styles.buttonBar, o.buttonBarStyle)}>
+					{o.okButton &&
+						<Button text="OK" {...o.okButtonProps as any}
+							onClick={()=> {
+								if (o.onOK && o.onOK() === false) return;
 								controller.Close();
 							}}/>}
-						{o.extraButtons && o.extraButtons()}
-					</div>}
-			</Modal>
-		);
-	}
-}
+					{o.cancelButton &&
+						<Button text="Cancel" ml={o.okButton ? 10 : 0} {...o.cancelButtonProps} onClick={()=> {
+							if (o.onCancel && o.onCancel() === false) return;
+							controller.Close();
+						}}/>}
+					{o.extraButtons != null &&
+					<o.extraButtons {...{updateCallCount} as any}/>}
+				</div>}
+		</Modal>
+	);
+});
