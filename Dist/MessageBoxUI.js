@@ -21,7 +21,7 @@ let styles = {
         padding: "5px 10px", background: "rgba(0,0,0,1)", cursor: "move", fontSize: "17px", fontWeight: "bold", whiteSpace: "pre",
         border: "solid rgba(255,255,255,.1)", borderWidth: "0 0 1px 0"
     },
-    message: { padding: "10px 20px", whiteSpace: "pre" },
+    message: { padding: "10px 20px" },
     buttonBar: { marginLeft: 20, marginBottom: 20, marginRight: 20 },
 };
 export const MessageBoxUI = observer((props) => {
@@ -97,7 +97,7 @@ export const MessageBoxUI = observer((props) => {
                 } },
                 React.createElement(TitleAsReactFunctionComp, Object.assign({}, { updateCallCount }))),
         o.message != null &&
-            React.createElement("div", { style: E(styles.message, o.messageStyle) },
+            React.createElement("div", { style: E(styles.message, typeof o.message == "string" && { whiteSpace: "pre-wrap" }, o.messageStyle) },
                 React.createElement(MessageAsReactFunctionComp, Object.assign({}, { updateCallCount }))),
         (o.okButton || o.cancelButton || o.extraButtons) &&
             React.createElement("div", { style: E(styles.buttonBar, o.buttonBarStyle) },

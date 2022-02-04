@@ -22,7 +22,7 @@ let styles = {
 		padding: "5px 10px", background: "rgba(0,0,0,1)", cursor: "move", fontSize: "17px", fontWeight: "bold", whiteSpace: "pre",
 		border: "solid rgba(255,255,255,.1)", borderWidth: "0 0 1px 0"
 	},
-	message: {padding: "10px 20px", whiteSpace: "pre"},
+	message: {padding: "10px 20px"},
 	buttonBar: {marginLeft: 20, marginBottom: 20, marginRight: 20},
 };
 
@@ -108,7 +108,11 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 					<TitleAsReactFunctionComp {...{updateCallCount} as any}/>
 				</div>}
 			{o.message != null &&
-				<div style={E(styles.message, o.messageStyle)}>
+				<div style={E(
+					styles.message,
+					typeof o.message == "string" && {whiteSpace: "pre-wrap"},
+					o.messageStyle,
+				)}>
 					<MessageAsReactFunctionComp {...{updateCallCount} as any}/>
 				</div>}
 			{(o.okButton || o.cancelButton || o.extraButtons) &&
