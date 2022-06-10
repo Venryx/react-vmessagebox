@@ -103,15 +103,11 @@ export const MessageBoxUI = observer((props) => {
             React.createElement("div", { style: E(styles.buttonBar, o.buttonBarStyle) },
                 o.okButton &&
                     React.createElement(Button, Object.assign({ text: "OK" }, o.okButtonProps, { onClick: () => {
-                            if (o.onOK && o.onOK() === false)
-                                return;
-                            controller.Close();
+                            controller.PressOK();
                         } })),
                 o.cancelButton &&
                     React.createElement(Button, Object.assign({ text: "Cancel", ml: o.okButton ? 10 : 0 }, o.cancelButtonProps, { onClick: () => {
-                            if (o.onCancel && o.onCancel() === false)
-                                return;
-                            controller.Close();
+                            controller.PressCancel();
                         } })),
                 o.extraButtons != null &&
                     React.createElement(o.extraButtons, Object.assign({}, { updateCallCount })))));

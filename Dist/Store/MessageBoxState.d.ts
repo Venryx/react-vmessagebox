@@ -17,9 +17,11 @@ export declare class MessageBoxOptions {
     messageStyle?: any;
     okButton: boolean;
     okButtonProps?: ButtonProps;
+    okOnEnterKey: boolean;
     onOK?: (() => boolean | voidy) | n;
     cancelButton: boolean;
     cancelButtonProps?: ButtonProps | n;
+    cancelOnEscapeKey: boolean;
     cancelOnOverlayClick: boolean;
     onCancel?: (() => boolean | voidy) | n;
     extraButtons?: FunctionComponent;
@@ -31,5 +33,7 @@ export declare class BoxController {
     boxID: number;
     UpdateUI(): void;
     Close(): void;
+    PressOK(): void;
+    PressCancel(): void;
 }
 export {};

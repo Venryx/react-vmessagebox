@@ -120,13 +120,11 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 					{o.okButton &&
 						<Button text="OK" {...o.okButtonProps as any}
 							onClick={()=> {
-								if (o.onOK && o.onOK() === false) return;
-								controller.Close();
+								controller.PressOK();
 							}}/>}
 					{o.cancelButton &&
 						<Button text="Cancel" ml={o.okButton ? 10 : 0} {...o.cancelButtonProps} onClick={()=> {
-							if (o.onCancel && o.onCancel() === false) return;
-							controller.Close();
+							controller.PressCancel();
 						}}/>}
 					{o.extraButtons != null &&
 					<o.extraButtons {...{updateCallCount} as any}/>}

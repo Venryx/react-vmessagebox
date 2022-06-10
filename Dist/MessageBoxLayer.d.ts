@@ -1,9 +1,7 @@
 /// <reference types="react" />
-declare const MessageBoxLayer_base: (new (..._: any[]) => import("react-vextensions").BaseComponent<{}, {}, unknown>) & {
-    renderCount: number;
-    lastRenderTime: number;
-};
-export declare class MessageBoxLayer extends MessageBoxLayer_base {
+import { BaseComponent } from "react-vextensions";
+export declare function AddGlobalKeyListener(): void;
+export declare class MessageBoxLayer extends BaseComponent<{}, {}> {
+    ComponentWillMount(): void;
     render(): JSX.Element;
 }
-export {};

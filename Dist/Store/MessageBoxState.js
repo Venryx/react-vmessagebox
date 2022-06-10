@@ -85,6 +85,12 @@ export class MessageBoxOptions {
             writable: true,
             value: void 0
         });
+        Object.defineProperty(this, "okOnEnterKey", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: true
+        });
         Object.defineProperty(this, "onOK", {
             enumerable: true,
             configurable: true,
@@ -102,6 +108,12 @@ export class MessageBoxOptions {
             configurable: true,
             writable: true,
             value: void 0
+        });
+        Object.defineProperty(this, "cancelOnEscapeKey", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false
         });
         Object.defineProperty(this, "cancelOnOverlayClick", {
             enumerable: true,
@@ -151,6 +163,16 @@ export class BoxController {
     }
     Close() {
         RunInAction("BoxController.Close", () => delete store.openBoxStates[this.boxID]);
+    }
+    PressOK() {
+        if (this.options.onOK && this.options.onOK() === false)
+            return;
+        this.Close();
+    }
+    PressCancel() {
+        if (this.options.onCancel && this.options.onCancel() === false)
+            return;
+        this.Close();
     }
 }
 //# sourceMappingURL=MessageBoxState.js.map
