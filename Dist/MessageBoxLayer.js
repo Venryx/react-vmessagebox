@@ -12,6 +12,17 @@ import { store } from "./Store.js";
 AddGlobalStyle(`
 .ReactModal__Overlay { z-index: 1; }
 `);
+function GetParents(self, topDown = false) {
+    const result = [];
+    let currentParent = self.parentElement;
+    while (currentParent) {
+        result.push(currentParent);
+        currentParent = currentParent.parentElement;
+    }
+    if (topDown)
+        result.reverse();
+    return result;
+}
 export function AddGlobalKeyListener() {
     document.addEventListener("keydown", e => {
         let openBoxIDs = Object.keys(store.openBoxStates).map(idStr => Number(idStr));
@@ -21,6 +32,11 @@ export function AddGlobalKeyListener() {
             return;
         if (e.key == "Enter") {
             if (topDialogState.options.okButton && topDialogState.options.okOnEnterKey) {
+                // if the focused element is in one of the message-boxes/dialogs, call `blur()` on it, so it saves its state before the dialog's `onOK` event triggers
+                let activeEl = document.activeElement;
+                if (activeEl && activeEl instanceof HTMLElement && GetParents(activeEl).find(a => a.classList.contains("ReactModal__Content"))) {
+                    activeEl.blur();
+                }
                 topDialogState.controller.PressOK();
             }
         }
