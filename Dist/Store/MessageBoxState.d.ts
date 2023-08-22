@@ -11,9 +11,14 @@ declare type n = null;
 export declare class MessageBoxOptions {
     overlayStyle?: any | n;
     containerStyle?: any | n;
-    title?: string | FunctionComponent | n;
+    preRender?: (updateCallCount: number) => any;
+    title?: string | FunctionComponent<{
+        updateCallCount: number;
+    }> | n;
     titleStyle?: any;
-    message?: string | FunctionComponent | n;
+    message?: string | FunctionComponent<{
+        updateCallCount: number;
+    }> | n;
     messageStyle?: any;
     okButton: boolean;
     okButtonProps?: ButtonProps;

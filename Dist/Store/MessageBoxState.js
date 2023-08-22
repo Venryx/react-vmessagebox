@@ -49,6 +49,12 @@ export class MessageBoxOptions {
             writable: true,
             value: void 0
         });
+        Object.defineProperty(this, "preRender", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         Object.defineProperty(this, "title", {
             enumerable: true,
             configurable: true,

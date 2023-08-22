@@ -25,12 +25,14 @@ let styles = {
     buttonBar: { marginLeft: 20, marginBottom: 20, marginRight: 20 },
 };
 export const MessageBoxUI = observer((props) => {
+    var _a;
     let { id } = props;
     let boxState = store.openBoxStates[id];
     //if (boxState == null) return null;
     let updateCallCount = boxState.updateCallCount; // just access (used to trigger update, when val changed)
     let { options: o, controller } = boxState;
     let [offset, setOffset] = useState({ x: 0, y: 0 });
+    (_a = o.preRender) === null || _a === void 0 ? void 0 : _a.call(o, updateCallCount);
     // cache these, until the caller manually calls boxController.Update()
     /*let TitleAsReactRenderFunc = useMemo(()=>{
         return typeof o.title == "string" ? ()=><>{o.title}</> :
@@ -55,6 +57,17 @@ export const MessageBoxUI = observer((props) => {
             (typeof o.message == "function" || typeof ((_a = o.message) === null || _a === void 0 ? void 0 : _a["type"]) == "function") ? o.message :
                 () => React.createElement(React.Fragment, null);
     }, [o.message]);
+    // cache these, until the caller manually calls boxController.Update()
+    /*let TitleAsReactElements = useMemo(()=>{
+        return typeof o.title == "string" ? <>{o.title}</> :
+            (typeof o.title == "function" || typeof o.title?.["type"] == "function") ? o.title({updateCallCount}) :
+            <></>
+    }, [o.message, updateCallCount]);
+    let MessageAsReactElements = useMemo(()=>{
+        return typeof o.message == "string" ? <>{o.message}</> :
+            (typeof o.message == "function" || typeof o.message?.["type"] == "function") ? o.message({updateCallCount}) :
+            <></>;
+    }, [o.message, updateCallCount]);*/
     //lastInnerUIResult;
     let data = useMemo(() => ({
         //lastInnerUIResult: null;

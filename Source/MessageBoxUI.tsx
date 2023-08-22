@@ -35,6 +35,8 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 	let {options: o, controller} = boxState;
 	let [offset, setOffset] = useState({x: 0, y: 0});
 
+	o.preRender?.(updateCallCount);
+
 	// cache these, until the caller manually calls boxController.Update()
 	/*let TitleAsReactRenderFunc = useMemo(()=>{
 		return typeof o.title == "string" ? ()=><>{o.title}</> :
@@ -57,6 +59,17 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 			(typeof o.message == "function" || typeof o.message?.["type"] == "function") ? o.message :
 			()=><></>;
 	}, [o.message]);
+	// cache these, until the caller manually calls boxController.Update()
+	/*let TitleAsReactElements = useMemo(()=>{
+		return typeof o.title == "string" ? <>{o.title}</> :
+			(typeof o.title == "function" || typeof o.title?.["type"] == "function") ? o.title({updateCallCount}) :
+			<></>
+	}, [o.message, updateCallCount]);
+	let MessageAsReactElements = useMemo(()=>{
+		return typeof o.message == "string" ? <>{o.message}</> :
+			(typeof o.message == "function" || typeof o.message?.["type"] == "function") ? o.message({updateCallCount}) :
+			<></>;
+	}, [o.message, updateCallCount]);*/
 
 	//lastInnerUIResult;
 	let data = useMemo(()=>({
@@ -106,6 +119,7 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 						});
 					}}>
 					<TitleAsReactFunctionComp {...{updateCallCount} as any}/>
+					{/*TitleAsReactElements*/}
 				</div>}
 			{o.message != null &&
 				<div style={E(
@@ -114,6 +128,7 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 					o.messageStyle,
 				)}>
 					<MessageAsReactFunctionComp {...{updateCallCount} as any}/>
+					{/*MessageAsReactElements*/}
 				</div>}
 			{(o.okButton || o.cancelButton || o.extraButtons) &&
 				<div style={E(styles.buttonBar, o.buttonBarStyle)}>

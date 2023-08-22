@@ -19,11 +19,13 @@ type n = null;
 export class MessageBoxOptions {
 	overlayStyle?: any|n;
 	containerStyle?: any|n;
+
+	preRender?: (updateCallCount: number)=>any;
 	
-	title?: string | FunctionComponent |n;
+	title?: string | FunctionComponent<{updateCallCount: number}> |n;
 	titleStyle?: any;
 
-	message?: string | FunctionComponent |n;
+	message?: string | FunctionComponent<{updateCallCount: number}> |n;
 	messageStyle?: any;
 
 	okButton = true;
