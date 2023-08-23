@@ -1,7 +1,9 @@
 import {observable, runInAction, makeObservable} from "mobx";
+import {deepEqual} from "mobx/dist";
 import {FunctionComponent} from "react";
 import {ButtonProps} from "react-vcomponents";
-import {voidy, RunInAction} from "../General.js";
+import {ShallowChanged} from "react-vextensions";
+import {voidy, RunInAction, DeepEquals} from "../General.js";
 import {store} from "../Store.js";
 
 export class MessageBoxState {
@@ -54,6 +56,18 @@ export class BoxController {
 	UpdateUI() { //updateInnerUI = true) {
 		RunInAction("BoxController.UpdateUI", ()=>store.openBoxStates[this.boxID].updateCallCount++);
 	}
+	/** Options are checked for changes "deeply", ie. newOpts is shallow-merged into a new (interim) value, then deep-compared with old value. */
+	UpdateOptions(newOpts: Partial<MessageBoxOptions>, updateUIIfChanged = true) {
+		/*const changed = Object.keys(newOpts).some(key=>ShallowChanged(this.options[key], newOpts[key]));
+		Object.assign(this.options, newOpts);*/
+		const oldOptions = {...this.options};
+		Object.assign(this.options, newOpts);
+		const changed = !DeepEquals(oldOptions, this.options);
+		if (updateUIIfChanged && changed) {
+			this.UpdateUI();
+		}
+	}
+
 	Close() {
 		RunInAction("BoxController.Close", ()=>delete store.openBoxStates[this.boxID]);
 	}

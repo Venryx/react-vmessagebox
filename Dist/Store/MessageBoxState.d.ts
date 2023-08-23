@@ -37,6 +37,8 @@ export declare class BoxController {
     options: MessageBoxOptions;
     boxID: number;
     UpdateUI(): void;
+    /** Options are checked for changes "deeply", ie. newOpts is shallow-merged into a new (interim) value, then deep-compared with old value. */
+    UpdateOptions(newOpts: Partial<MessageBoxOptions>, updateUIIfChanged?: boolean): void;
     Close(): void;
     PressOK(): void;
     PressCancel(): void;

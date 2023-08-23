@@ -5,7 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { observable, makeObservable } from "mobx";
-import { RunInAction } from "../General.js";
+import { RunInAction, DeepEquals } from "../General.js";
 import { store } from "../Store.js";
 export class MessageBoxState {
     constructor(initialData) {
@@ -166,6 +166,17 @@ export class BoxController {
     }
     UpdateUI() {
         RunInAction("BoxController.UpdateUI", () => store.openBoxStates[this.boxID].updateCallCount++);
+    }
+    /** Options are checked for changes "deeply", ie. newOpts is shallow-merged into a new (interim) value, then deep-compared with old value. */
+    UpdateOptions(newOpts, updateUIIfChanged = true) {
+        /*const changed = Object.keys(newOpts).some(key=>ShallowChanged(this.options[key], newOpts[key]));
+        Object.assign(this.options, newOpts);*/
+        const oldOptions = Object.assign({}, this.options);
+        Object.assign(this.options, newOpts);
+        const changed = !DeepEquals(oldOptions, this.options);
+        if (updateUIIfChanged && changed) {
+            this.UpdateUI();
+        }
     }
     Close() {
         RunInAction("BoxController.Close", () => delete store.openBoxStates[this.boxID]);
