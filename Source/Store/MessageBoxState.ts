@@ -64,7 +64,8 @@ export class BoxController {
 		Object.assign(this.options, newOpts);
 		const changed = !DeepEquals(oldOptions, this.options);
 		if (updateUIIfChanged && changed) {
-			this.UpdateUI();
+			// wait a moment before calling update, so we don't get a mobx/react warning about updating state during render
+			setTimeout(()=>this.UpdateUI(), 0);
 		}
 	}
 
