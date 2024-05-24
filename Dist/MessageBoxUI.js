@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import { Button } from "react-vcomponents";
 import { E } from "./General.js";
 import { store } from "./Store.js";
-let styles = {
+export const MessageBoxUI_styles = {
     overlay: {
         position: "fixed", left: -1000, right: -1000, top: -1000, bottom: -1000,
         display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,.5)",
@@ -19,11 +19,17 @@ let styles = {
     },
     title: {
         padding: "5px 10px", background: "rgba(0,0,0,1)", cursor: "move", fontSize: "17px", fontWeight: "bold", whiteSpace: "pre",
-        border: "solid rgba(255,255,255,.1)", borderWidth: "0 0 1px 0"
+        border: "solid rgba(255,255,255,.1)", borderWidth: "0 0 1px 0",
+        // we don't want dialog titles to change the sizing of the dialog, so use absolute positioning (and cut off overflow)
+        position: "absolute", width: "100%", overflow: "hidden",
     },
-    message: { padding: "10px 20px" },
+    message: {
+        marginTop: 32,
+        padding: "10px 20px",
+    },
     buttonBar: { marginLeft: 20, marginBottom: 20, marginRight: 20 },
 };
+let styles = MessageBoxUI_styles; // local alias
 export const MessageBoxUI = observer((props) => {
     var _a;
     let { id } = props;
