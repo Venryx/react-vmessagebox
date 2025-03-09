@@ -1,6 +1,6 @@
 import {observable, runInAction, makeObservable} from "mobx";
 import {deepEqual} from "mobx/dist";
-import {FunctionComponent} from "react";
+import {FunctionComponent, ReactElement, ReactNode} from "react";
 import {ButtonProps} from "react-vcomponents";
 import {ShallowChanged} from "react-vextensions";
 import {voidy, RunInAction, DeepEquals} from "../General.js";

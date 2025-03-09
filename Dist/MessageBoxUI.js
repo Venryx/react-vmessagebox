@@ -6,7 +6,7 @@ import { E } from "./General.js";
 import { store } from "./Store.js";
 export const MessageBoxUI_styles = {
     overlay: {
-        position: "fixed", left: -1000, right: -1000, top: -1000, bottom: -1000,
+        position: "fixed", left: -1000, right: -1000, top: -1000, bottom: -1000, // add extra space, so that popup-content doesn't have scroll issue when clipping edges
         display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,.5)",
     },
     container: {
@@ -24,21 +24,20 @@ export const MessageBoxUI_styles = {
         position: "absolute", width: "100%", overflow: "hidden",
     },
     message: {
-        marginTop: 32,
+        marginTop: 32, // to make space for title-bar above
         padding: "10px 20px",
     },
     buttonBar: { marginLeft: 20, marginBottom: 20, marginRight: 20 },
 };
 let styles = MessageBoxUI_styles; // local alias
 export const MessageBoxUI = observer((props) => {
-    var _a;
     let { id } = props;
     let boxState = store.openBoxStates[id];
     //if (boxState == null) return null;
     let updateCallCount = boxState.updateCallCount; // just access (used to trigger update, when val changed)
     let { options: o, controller } = boxState;
     let [offset, setOffset] = useState({ x: 0, y: 0 });
-    (_a = o.preRender) === null || _a === void 0 ? void 0 : _a.call(o, updateCallCount);
+    o.preRender?.(updateCallCount);
     // cache these, until the caller manually calls boxController.Update()
     /*let TitleAsReactRenderFunc = useMemo(()=>{
         return typeof o.title == "string" ? ()=><>{o.title}</> :
@@ -52,15 +51,13 @@ export const MessageBoxUI = observer((props) => {
     }, [updateCallCount]);*/
     // cache these, until the caller manually calls boxController.Update()
     let TitleAsReactFunctionComp = useMemo(() => {
-        var _a;
         return typeof o.title == "string" ? () => React.createElement(React.Fragment, null, o.title) :
-            (typeof o.title == "function" || typeof ((_a = o.title) === null || _a === void 0 ? void 0 : _a["type"]) == "function") ? o.title :
+            (typeof o.title == "function" || typeof o.title?.["type"] == "function") ? o.title :
                 () => React.createElement(React.Fragment, null);
     }, [o.message]);
     let MessageAsReactFunctionComp = useMemo(() => {
-        var _a;
         return typeof o.message == "string" ? () => React.createElement(React.Fragment, null, o.message) :
-            (typeof o.message == "function" || typeof ((_a = o.message) === null || _a === void 0 ? void 0 : _a["type"]) == "function") ? o.message :
+            (typeof o.message == "function" || typeof o.message?.["type"] == "function") ? o.message :
                 () => React.createElement(React.Fragment, null);
     }, [o.message]);
     // cache these, until the caller manually calls boxController.Update()
@@ -114,21 +111,21 @@ export const MessageBoxUI = observer((props) => {
                         data.moveBar_drag_mouseUpListener = null;
                     });
                 } },
-                React.createElement(TitleAsReactFunctionComp, Object.assign({}, { updateCallCount }))),
+                React.createElement(TitleAsReactFunctionComp, { ...{ updateCallCount } })),
         o.message != null &&
             React.createElement("div", { style: E(styles.message, typeof o.message == "string" && { whiteSpace: "pre-wrap" }, o.messageStyle) },
-                React.createElement(MessageAsReactFunctionComp, Object.assign({}, { updateCallCount }))),
+                React.createElement(MessageAsReactFunctionComp, { ...{ updateCallCount } })),
         (o.okButton || o.cancelButton || o.extraButtons) &&
             React.createElement("div", { style: E(styles.buttonBar, o.buttonBarStyle) },
                 o.okButton &&
-                    React.createElement(Button, Object.assign({ text: "OK" }, o.okButtonProps, { onClick: () => {
+                    React.createElement(Button, { text: "OK", ...o.okButtonProps, onClick: () => {
                             controller.PressOK();
-                        } })),
+                        } }),
                 o.cancelButton &&
-                    React.createElement(Button, Object.assign({ text: "Cancel", ml: o.okButton ? 10 : 0 }, o.cancelButtonProps, { onClick: () => {
+                    React.createElement(Button, { text: "Cancel", ml: o.okButton ? 10 : 0, ...o.cancelButtonProps, onClick: () => {
                             controller.PressCancel();
-                        } })),
+                        } }),
                 o.extraButtons != null &&
-                    React.createElement(o.extraButtons, Object.assign({}, { updateCallCount })))));
+                    React.createElement(o.extraButtons, { ...{ updateCallCount } }))));
 });
 //# sourceMappingURL=MessageBoxUI.js.map

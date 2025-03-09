@@ -56,12 +56,12 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 	}, [updateCallCount]);*/
 	// cache these, until the caller manually calls boxController.Update()
 	let TitleAsReactFunctionComp = useMemo(()=>{
-		return typeof o.title == "string" ? ()=><>{o.title}</> :
+		return typeof o.title == "string" ? ()=><>{o.title as string}</> :
 			(typeof o.title == "function" || typeof o.title?.["type"] == "function") ? o.title :
 			()=><></>
 	}, [o.message]);
 	let MessageAsReactFunctionComp = useMemo(()=>{
-		return typeof o.message == "string" ? ()=><>{o.message}</> :
+		return typeof o.message == "string" ? ()=><>{o.message as string}</> :
 			(typeof o.message == "function" || typeof o.message?.["type"] == "function") ? o.message :
 			()=><></>;
 	}, [o.message]);

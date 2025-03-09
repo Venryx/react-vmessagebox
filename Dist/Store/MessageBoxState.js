@@ -9,161 +9,44 @@ import { RunInAction, DeepEquals } from "../General.js";
 import { store } from "../Store.js";
 export class MessageBoxState {
     constructor(initialData) {
-        //id: number;
-        Object.defineProperty(this, "updateCallCount", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: 0
-        });
-        Object.defineProperty(this, "options", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "controller", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
         makeObservable(this);
         Object.assign(this, initialData);
     }
+    //id: number;
+    updateCallCount = 0;
+    options;
+    controller;
 }
 __decorate([
     observable
 ], MessageBoxState.prototype, "updateCallCount", void 0);
 export class MessageBoxOptions {
-    constructor() {
-        Object.defineProperty(this, "overlayStyle", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "containerStyle", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "preRender", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "title", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "titleStyle", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "message", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "messageStyle", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "okButton", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: true
-        });
-        Object.defineProperty(this, "okButtonProps", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "okOnEnterKey", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: true
-        });
-        Object.defineProperty(this, "onOK", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "cancelButton", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: false
-        });
-        Object.defineProperty(this, "cancelButtonProps", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "cancelOnEscapeKey", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: false
-        });
-        Object.defineProperty(this, "cancelOnOverlayClick", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: false
-        });
-        Object.defineProperty(this, "onCancel", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "extraButtons", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "buttonBarStyle", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-    }
+    overlayStyle;
+    containerStyle;
+    preRender;
+    title;
+    titleStyle;
+    message;
+    messageStyle;
+    okButton = true;
+    okButtonProps;
+    okOnEnterKey = true;
+    onOK;
+    cancelButton = false;
+    cancelButtonProps;
+    cancelOnEscapeKey = false;
+    cancelOnOverlayClick = false;
+    onCancel;
+    extraButtons;
+    buttonBarStyle;
 }
 export class BoxController {
     constructor(options, boxID) {
-        Object.defineProperty(this, "options", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "boxID", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
         this.options = options;
         this.boxID = boxID;
     }
+    options;
+    boxID;
     UpdateUI() {
         RunInAction("BoxController.UpdateUI", () => store.openBoxStates[this.boxID].updateCallCount++);
     }
@@ -171,7 +54,7 @@ export class BoxController {
     UpdateOptions(newOpts, updateUIIfChanged = true) {
         /*const changed = Object.keys(newOpts).some(key=>ShallowChanged(this.options[key], newOpts[key]));
         Object.assign(this.options, newOpts);*/
-        const oldOptions = Object.assign({}, this.options);
+        const oldOptions = { ...this.options };
         Object.assign(this.options, newOpts);
         const changed = !DeepEquals(oldOptions, this.options);
         if (updateUIIfChanged && changed) {

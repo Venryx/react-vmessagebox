@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from "react";
 export declare const MessageBoxUI_styles: {
     overlay: {
         position: string;
@@ -50,4 +50,4 @@ export declare const MessageBoxUI_styles: {
 };
 export declare const MessageBoxUI: (props: {
     id: number;
-}) => JSX.Element;
+}) => React.JSX.Element;

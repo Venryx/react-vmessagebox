@@ -6,21 +6,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { observable, makeObservable } from "mobx";
 export class MessageBoxStore {
-    constructor() {
-        Object.defineProperty(this, "lastBoxID", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: 0
-        });
-        Object.defineProperty(this, "openBoxStates", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: {}
-        });
-        makeObservable(this);
-    }
+    constructor() { makeObservable(this); }
+    lastBoxID = 0;
+    openBoxStates = {};
 }
 __decorate([
     observable

@@ -7,7 +7,7 @@ export declare class MessageBoxState {
     options: MessageBoxOptions;
     controller: BoxController;
 }
-declare type n = null;
+type n = null;
 export declare class MessageBoxOptions {
     overlayStyle?: any | n;
     containerStyle?: any | n;
