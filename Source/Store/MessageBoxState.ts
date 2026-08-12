@@ -1,5 +1,4 @@
-import {observable, runInAction, makeObservable} from "mobx";
-import {deepEqual} from "mobx/dist";
+import {observable} from "mobx";
 import {FunctionComponent, ReactElement, ReactNode} from "react";
 import {ButtonProps} from "react-vcomponents";
 import {ShallowChanged} from "react-vextensions";
@@ -8,13 +7,12 @@ import {store} from "../Store.js";
 
 export class MessageBoxState {
 	constructor(initialData: Partial<MessageBoxState>) {
-		makeObservable(this);
 		Object.assign(this, initialData);
 	}
 	//id: number;
-	@observable updateCallCount = 0;
-	options: MessageBoxOptions;
-	controller: BoxController;
+	@observable accessor updateCallCount = 0;
+	options!: MessageBoxOptions;
+	controller!: BoxController;
 }
 
 type n = null;

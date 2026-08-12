@@ -82,8 +82,8 @@ export const MessageBoxUI = observer((props: {id: number})=>{
 		//lastInnerUIResult: null;
 		moveBar_drag_origOffset: null as {x: number, y: number}|n,
 		moveBar_drag_mouseDownPos: null as {x: number, y: number}|n,
-		moveBar_drag_mouseMoveListener: null as EventListener|n,
-		moveBar_drag_mouseUpListener: null as EventListener|n,
+		moveBar_drag_mouseMoveListener: null as ((e: MouseEvent)=>void)|n,
+		moveBar_drag_mouseUpListener: null as ((e: MouseEvent)=>void)|n,
 	}), []);
 
 	return (

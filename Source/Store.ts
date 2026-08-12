@@ -1,10 +1,9 @@
-import {observable, makeObservable} from "mobx";
+import {observable} from "mobx";
 import {MessageBoxState} from "./Store/MessageBoxState.js";
 
 export class MessageBoxStore {
-	constructor() { makeObservable(this); }
 	lastBoxID = 0;
-	@observable openBoxStates = {} as {[key: number]: MessageBoxState};
+	@observable accessor openBoxStates = {} as {[key: number]: MessageBoxState};
 }
 
 export const store = new MessageBoxStore();

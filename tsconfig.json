@@ -3,14 +3,13 @@
 		// general
 		"rootDir": "Source",
 		"sourceMap": true,
-		"module": "ES2015",
-		"moduleResolution": "node",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 		"target": "ESNext",
 		"jsx": "react",
 		"noImplicitAny": false,
 
 		// compilation
-		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true, // doesn't modify output, *or* own import code (it's just for type-checking)
 		//"esModuleInterop": true, // doesn't modify output, only code for the stuff we import
 		"useDefineForClassFields": true, // needed for mobx @observable

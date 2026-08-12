@@ -3,7 +3,7 @@ import { ButtonProps } from "react-vcomponents";
 import { voidy } from "../General.js";
 export declare class MessageBoxState {
     constructor(initialData: Partial<MessageBoxState>);
-    updateCallCount: number;
+    accessor updateCallCount: number;
     options: MessageBoxOptions;
     controller: BoxController;
 }
