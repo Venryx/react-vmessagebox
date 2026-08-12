@@ -5,7 +5,7 @@
 		"sourceMap": true,
 		"module": "ESNext",
 		"moduleResolution": "bundler",
-		"target": "ESNext",
+		"target": "ES2025",
 		"jsx": "react",
 		"noImplicitAny": false,
 

@@ -61,4 +61,3 @@ export const store = new MessageBoxStore();
         store.offset = {x: 0, y: 0};
     });
 }*/ 
-//# sourceMappingURL=Store.js.map

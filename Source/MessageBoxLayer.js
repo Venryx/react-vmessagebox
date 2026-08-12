@@ -95,12 +95,13 @@ let MessageBoxLayer = (() => {
         }
         render() {
             let openBoxIDs = Object.keys(store.openBoxStates).map(idStr => Number(idStr));
-            return (React.createElement(React.Fragment, null, openBoxIDs.map(id => {
-                return React.createElement(MessageBoxUI, { key: id, id: id });
-            })));
+            return (<>
+				{openBoxIDs.map(id => {
+                    return <MessageBoxUI key={id} id={id}/>;
+                })}
+			</>);
         }
     };
     return MessageBoxLayer = _classThis;
 })();
 export { MessageBoxLayer };
-//# sourceMappingURL=MessageBoxLayer.js.map

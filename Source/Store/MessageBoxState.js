@@ -114,4 +114,3 @@ export class BoxController {
         this.Close();
     }
 }
-//# sourceMappingURL=MessageBoxState.js.map
